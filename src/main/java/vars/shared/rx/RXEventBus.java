@@ -1,9 +1,8 @@
 package vars.shared.rx;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * An event bus based on <a href="https://github.com/ReactiveX/RxJava">RXJava</a>.
@@ -17,17 +16,14 @@ public class RXEventBus {
      If multiple threads are going to emit events to this
      then it must be made thread-safe like this instead
      */
-    private final Subject<Object, Object> subject = new SerializedSubject<>(PublishSubject.create());
+    private final Subject<Object> rxSubject = PublishSubject.create().toSerialized();
 
     public void send(Object o) {
-        subject.onNext(o);
+        rxSubject.onNext(o);
     }
 
     public Observable<Object> toObserverable() {
-        return subject;
+        return rxSubject;
     }
 
-    public boolean hasObservers() {
-        return subject.hasObservers();
-    }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import vars.DAO;
 import vars.knowledgebase.Concept;
 import vars.knowledgebase.ConceptDAO;
+import vars.knowledgebase.ConceptNameValidator;
 
 /**
  * Created by IntelliJ IDEA.
