@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.queryfx;
 
 import org.junit.Test;
-import org.mbari.m3.vars.query.util.StateLookup;
+import org.mbari.m3.vars.query.old.util.StateLookup;
 
 import static org.junit.Assert.*;
 

@@ -6,8 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.mbari.m3.vars.query.services.query.results.QueryResults;
-import org.mbari.m3.vars.query.ui.QueryResultsTableView;
+import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.old.ui.QueryResultsTableView;
 
 import java.util.HashMap;
 import java.util.List;
