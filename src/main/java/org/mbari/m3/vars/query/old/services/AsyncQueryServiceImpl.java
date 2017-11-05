@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.old.services;
 
 import com.google.common.base.Preconditions;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseDAOFactory;
 import org.mbari.m3.vars.query.old.model.beans.ResolvedConceptSelection;

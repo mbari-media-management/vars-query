@@ -1,26 +1,33 @@
-package org.mbari.m3.vars.query.old.messages;
+package org.mbari.m3.vars.query.messages;
+
 
 import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
-import org.mbari.m3.vars.query.old.shared.rx.messages.Msg;
 
 import java.io.File;
+import java.util.Optional;
 
 /**
  * @author Brian Schlining
- * @since 2016-04-11T13:59:00
+ * @since 2015-08-11T16:34:00
  */
-public class SaveAsJSONMsg implements Msg {
+public class SaveAsKMLMsg {
 
     private final File target;
     private final QueryResults queryResults;
+    private final Optional<String> sql;
 
-    public SaveAsJSONMsg(File target, QueryResults queryResults) {
+    public SaveAsKMLMsg(File target, QueryResults queryResults, Optional<String> sql) {
         this.queryResults = queryResults;
         this.target = target;
+        this.sql = sql;
     }
 
     public QueryResults getQueryResults() {
         return queryResults;
+    }
+
+    public Optional<String> getSql() {
+        return sql;
     }
 
     public File getTarget() {

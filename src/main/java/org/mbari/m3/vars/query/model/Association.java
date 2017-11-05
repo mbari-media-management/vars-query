@@ -7,7 +7,7 @@ import java.util.UUID;
  * @author Brian Schlining
  * @since 2017-05-11T13:29:00
  */
-public class Association implements Cloneable {
+public class Association implements Cloneable, ILink {
     private UUID uuid;
     private String linkName;
     private String toConcept;
@@ -84,5 +84,30 @@ public class Association implements Cloneable {
     @Override
     public String toString() {
         return linkName + " | "  + toConcept + " | " + linkValue;
+    }
+
+    @Override
+    public String getFromConcept() {
+        return null;
+    }
+
+    @Override
+    public void setLinkName(String linkName) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public void setToConcept(String toConcept) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public void setLinkValue(String linkValue) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public String stringValue() {
+        return toString();
     }
 }

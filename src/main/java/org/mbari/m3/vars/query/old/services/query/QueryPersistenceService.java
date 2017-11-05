@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.sql.IQueryable;
 import org.mbari.sql.QueryableImpl;

@@ -20,7 +20,7 @@
 
 package org.mbari.m3.vars.query.old.services.annotation;
 
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.util.PropertyChange;
 
 /**

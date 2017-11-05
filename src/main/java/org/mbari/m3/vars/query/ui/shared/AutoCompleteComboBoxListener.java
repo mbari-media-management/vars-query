@@ -1,4 +1,4 @@
-package org.mbari.m3.vars.query.old.ui.javafx.scene.control;
+package org.mbari.m3.vars.query.ui.shared;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
 
     private final ComboBox<T> comboBox;
-    private ObservableList<T> data;
+    private volatile ObservableList<T> data;
     private boolean moveCaretToPos = false;
     private int caretPos;
     private final Function<T, String> transform;
@@ -28,6 +28,9 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
         this.transform = transform;
 
         data = comboBox.getItems();
+        comboBox.itemsProperty().addListener((obs, oldv, newv) -> {
+            data = newv;
+        });
 
         this.comboBox.setEditable(true);
         this.comboBox.setOnKeyPressed(e -> comboBox.hide());

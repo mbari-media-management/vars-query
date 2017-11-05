@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query.old.ui.db;
 
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.util.StateLookup;
 import org.mbari.m3.vars.query.old.model.beans.ResolvedConceptSelection;
 

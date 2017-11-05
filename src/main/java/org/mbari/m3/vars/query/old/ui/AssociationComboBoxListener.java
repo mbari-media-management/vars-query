@@ -7,7 +7,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 
 import java.util.stream.Collectors;
 

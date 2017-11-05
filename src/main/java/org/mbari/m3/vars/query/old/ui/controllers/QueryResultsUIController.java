@@ -11,13 +11,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.mbari.m3.vars.query.old.messages.NewQueryResultsMsg;
-import org.mbari.m3.vars.query.old.messages.SaveAsTextMsg;
-import org.mbari.m3.vars.query.old.messages.SaveImagesMsg;
+import org.mbari.m3.vars.query.messages.NewQueryResultsMsg;
+import org.mbari.m3.vars.query.messages.SaveAsTextMsg;
+import org.mbari.m3.vars.query.messages.SaveImagesMsg;
 import org.mbari.m3.vars.query.old.ui.QueryResultsTableView;
 import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 import org.mbari.m3.vars.query.old.shared.rx.RXEventBus;
-import org.mbari.m3.vars.query.old.messages.SaveAsKMLMsg;
+import org.mbari.m3.vars.query.messages.SaveAsKMLMsg;
 
 import java.io.File;
 import java.time.Duration;

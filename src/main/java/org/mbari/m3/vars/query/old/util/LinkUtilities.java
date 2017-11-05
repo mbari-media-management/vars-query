@@ -16,7 +16,7 @@ import java.util.Comparator;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.model.LinkComparator;
 
 /**

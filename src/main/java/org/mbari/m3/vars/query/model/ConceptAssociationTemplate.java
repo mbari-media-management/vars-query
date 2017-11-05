@@ -5,7 +5,7 @@ package org.mbari.m3.vars.query.model;
  * @author Brian Schlining
  * @since 2017-05-11T16:55:00
  */
-public class ConceptAssociationTemplate {
+public class ConceptAssociationTemplate implements ILink {
     private String linkName;
     private String toConcept;
     private String linkValue;
@@ -38,5 +38,30 @@ public class ConceptAssociationTemplate {
             s = s.substring(0, 140) + "...";
         }
         return s;
+    }
+
+    @Override
+    public String getFromConcept() {
+        return null;
+    }
+
+    @Override
+    public void setLinkName(String linkName) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public void setToConcept(String toConcept) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public void setLinkValue(String linkValue) {
+        throw new UnsupportedOperationException("Not allowed");
+    }
+
+    @Override
+    public String stringValue() {
+        return toString();
     }
 }

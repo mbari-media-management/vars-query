@@ -1,4 +1,4 @@
-package org.mbari.m3.vars.query.old.messages;
+package org.mbari.m3.vars.query.messages;
 
 import org.mbari.m3.vars.query.old.model.beans.ResultsCustomization;
 import org.mbari.m3.vars.query.old.ui.db.ConceptConstraint;

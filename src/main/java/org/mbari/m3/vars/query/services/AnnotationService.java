@@ -3,6 +3,7 @@ package org.mbari.m3.vars.query.services;
 import org.mbari.m3.vars.query.model.Association;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,9 +14,9 @@ public interface AnnotationService {
 
     /**
      * Find all names used in Annotations
-     * @return All concept names used in annotations
+     * @return All concept names used in annotations, sorted.
      */
-    Collection<String> findAllNames();
+    List<String> findAllNames();
 
     /**
      * Looks up all associations in a database that were used with Observations
@@ -27,7 +28,7 @@ public interface AnnotationService {
      *  associations actually used to annotate Observations with the specifed
      *  conceptNames.
      */
-    Collection<Association> findAssociations(Collection<String> conceptNames);
+    List<Association> findAssociations(Collection<String> conceptNames);
 
     /**
      * Returns the count of unique columns found in the table for a given column
@@ -41,7 +42,7 @@ public interface AnnotationService {
      * @param columnName
      * @return
      */
-    Collection<?> findDistinct(String columnName);
+    List<?> findDistinct(String columnName);
 
     /**
      * Retrieves the metadata for the Annotation table. Returns are in
@@ -58,4 +59,12 @@ public interface AnnotationService {
      * @return the db id. e.g. the JDBC URL
      */
     String getDatabaseIdentifier();
+
+    /**
+     * Find the minium and maxium values in a numeric column
+     * @param columnName The name of the column
+     * @return A 2-element list. The first element is the min and the
+     *      second element is the max.
+     */
+    List<Number> findMinMax(String columnName);
 }

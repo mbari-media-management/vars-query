@@ -1,4 +1,4 @@
-package org.mbari.m3.vars.query.old.model;
+package org.mbari.m3.vars.query.model;
 
 /**
  * Inteface for VARS link style classes (Association, LinkTemplate, LinkRealization)

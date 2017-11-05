@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query.old.services.query.results;
 
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -19,6 +19,7 @@
     <gson.version>2.8.2</gson.version>
     <guava.version>20.0</guava.version>
     <guice.version>4.1.0</guice.version>
+    <jfoenix.version>1.10.0</jfoenix.version>
     <jfxtras.version>8.0-r5</jfxtras.version>
     <mbarix4j.version>1.10.0</mbarix4j.version>
     <okhttp.version>3.9.0</okhttp.version>
@@ -28,6 +29,11 @@
     <vcr4j.version>4.0.0</vcr4j.version>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>com.jfoenix</groupId>
+      <artifactId>jfoenix</artifactId>
+      <version>${jfoenix.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.mbari.vcr4j</groupId>
       <artifactId>vcr4j-core</artifactId>

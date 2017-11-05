@@ -3,7 +3,7 @@ package org.mbari.m3.vars.query.old.model.beans;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 
 import java.util.ArrayList;
 import java.util.List;

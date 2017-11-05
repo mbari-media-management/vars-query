@@ -7,7 +7,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.mbari.m3.vars.query.old.App;
 import org.mbari.m3.vars.query.old.GlobalStateLookup;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.old.services.knowledgebase.SimpleConceptBean;
 import org.mbari.m3.vars.query.old.services.knowledgebase.SimpleConceptNameBean;

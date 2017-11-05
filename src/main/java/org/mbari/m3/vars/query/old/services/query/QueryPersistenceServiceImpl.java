@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 import org.mbari.sql.QueryFunction;
 import org.mbari.sql.QueryResults;
 import org.mbari.sql.QueryableImpl;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.model.LinkBean;
 import org.mbari.m3.vars.query.old.util.VARSException;
 import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;

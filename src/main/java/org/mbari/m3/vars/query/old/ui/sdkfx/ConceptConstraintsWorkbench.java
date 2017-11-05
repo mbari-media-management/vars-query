@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import org.mbari.m3.vars.query.old.model.ILink;
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.old.services.AsyncQueryService;
 import org.mbari.m3.vars.query.old.messages.ShowBasicSearchWorkbenchMsg;
 import org.mbari.m3.vars.query.old.ui.AppIcons;
@@ -21,11 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.old.model.LinkBean;
 import org.mbari.m3.vars.query.old.util.LinkUtilities;
-import org.mbari.m3.vars.query.old.messages.NewConceptSelectionMsg;
+import org.mbari.m3.vars.query.messages.NewConceptSelectionMsg;
 import org.mbari.m3.vars.query.old.util.StateLookup;
 import org.mbari.m3.vars.query.old.shared.rx.RXEventBus;
 import org.mbari.m3.vars.query.old.model.beans.ConceptSelection;
-import org.mbari.m3.vars.query.old.ui.javafx.scene.control.AutoCompleteComboBoxListener;
+import org.mbari.m3.vars.query.ui.shared.AutoCompleteComboBoxListener;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -356,7 +356,6 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
         else {
             Platform.runLater(r);
         }
-
     }
 
 

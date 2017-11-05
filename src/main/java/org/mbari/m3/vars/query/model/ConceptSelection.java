@@ -1,6 +1,6 @@
-package org.mbari.m3.vars.query.old.model.beans;
+package org.mbari.m3.vars.query.model;
 
-import org.mbari.m3.vars.query.model.ILink;
+
 
 /**
  * @author Brian Schlining
@@ -14,12 +14,12 @@ public class ConceptSelection {
     private final boolean extendToSiblings;
     private final boolean extendToChildren;
     private final boolean extendToDescendants;
-    private final ILink link;
+    private final Association association;
 
-    public ConceptSelection(String conceptName, ILink link, boolean extendToParent, boolean extendToSiblings,
+    public ConceptSelection(String conceptName, Association link, boolean extendToParent, boolean extendToSiblings,
                             boolean extendToChildren, boolean extendToDescendants) {
         this.conceptName = conceptName;
-        this.link = link;
+        this.association = link;
         this.extendToParent = extendToParent;
         this.extendToSiblings = extendToSiblings;
         this.extendToChildren = extendToChildren;
@@ -46,8 +46,8 @@ public class ConceptSelection {
         return extendToSiblings;
     }
 
-    public ILink getLink() {
-        return link;
+    public Association getAssociation() {
+        return association;
     }
 
     @Override

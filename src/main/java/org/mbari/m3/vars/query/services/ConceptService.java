@@ -56,20 +56,7 @@ public interface ConceptService {
      */
     CompletableFuture<Optional<Concept>> findAncestors(String name);
 
-    /**
-     * Find concepts based relationship to the provided one
-     * @param name The conceptName of interest
-     * @param extendToParent true = include parent
-     * @param extendToSiblings true = include siblings (the parents children)
-     * @param extendToChildren true = include children
-     * @param extendToDescendants truen = include all dscendants (including children)
-     * @return A collection of concept names that match the criteria.
-     */
-    CompletableFuture<List<String>> findConceptNames(String name,
-                                                             boolean extendToParent,
-                                                             boolean extendToSiblings,
-                                                             boolean extendToChildren,
-                                                             boolean extendToDescendants);
+
 
 
 }

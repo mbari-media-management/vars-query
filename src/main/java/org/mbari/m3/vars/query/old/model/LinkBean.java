@@ -1,5 +1,7 @@
 package org.mbari.m3.vars.query.old.model;
 
+import org.mbari.m3.vars.query.model.ILink;
+
 /**
  * Generic link. Useful for parsing string representations of links.
  */
