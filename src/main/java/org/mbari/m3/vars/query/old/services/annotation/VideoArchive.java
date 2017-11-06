@@ -20,7 +20,7 @@
 
 package org.mbari.m3.vars.query.old.services.annotation;
 
-import org.mbari.m3.vars.query.old.model.ILazy;
+import org.mbari.m3.vars.query.model.ILazy;
 
 import java.util.Collection;
 import java.util.List;

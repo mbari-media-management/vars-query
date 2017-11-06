@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query.old.services.annotation;
 
-import org.mbari.m3.vars.query.old.model.VARSObject;
+import org.mbari.m3.vars.query.model.VARSObject;
 
 /**
  * Created by IntelliJ IDEA.

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -146,7 +147,7 @@ public class AnnotationServiceImpl implements AnnotationService {
             return map;
         };
 
-        String query = "SELECT * FROM annotations WHERE observation_uuid = " + UUID.randomUUID();
+        String query = "SELECT * FROM annotations WHERE observation_uuid = '" + UUID.randomUUID() + "'";
 
         return queryable.executeQueryFunction(query, queryFunction);
     }
@@ -166,11 +167,37 @@ public class AnnotationServiceImpl implements AnnotationService {
         }
 
         return minMax;
+    }
+
+    public List<Date> findDateBounds(String columnName) {
+        final String sql = "SELECT MIN(" + columnName + ") AS minValue, MAX(" + columnName +
+                ") AS maxValue FROM Annotations WHERE " + columnName + " IS NOT NULL";
+
+        List<Date> minMax = new ArrayList<>();
+        try {
+            QueryResults queryResults = queryable.executeQuery(sql);
+            minMax.add((Date) queryResults.getResults("minValue").get(0));
+            minMax.add((Date) queryResults.getResults("maxValue").get(0));
         }
+        catch (Exception e) {
+            log.error("An error occurred while executing the SQL statement: '" + sql + "'", e);
+        }
+
+        return minMax;
+    }
 
 
     @Override
     public String getDatabaseIdentifier() {
         return databaseIdentifier;
     }
+
+    public Connection getDatabaseConnection() {
+        try {
+            return queryable.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to open database connection", e);
+        }
+    }
+
 }

@@ -7,16 +7,11 @@ import org.mbari.m3.vars.query.model.ConceptAssociationTemplate;
 import org.mbari.m3.vars.query.model.ConceptDetails;
 import org.mbari.m3.vars.query.services.ConceptService;
 import org.mbari.m3.vars.query.services.RetrofitWebService;
-import org.mbari.m3.vars.query.utils.AsyncUtils;
 
 import javax.inject.Inject;
-import java.net.ConnectException;
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Service that calls the REST API for vampire-squid. This version does NO caching,

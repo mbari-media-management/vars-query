@@ -26,9 +26,18 @@
     <retrofit.version>2.3.0</retrofit.version>
     <rxjava.version>2.1.4</rxjava.version>
     <sdkfx.version>0.2.2</sdkfx.version>
+    <sqlserver.version>6.2.2.jre8</sqlserver.version>
     <vcr4j.version>4.0.0</vcr4j.version>
   </properties>
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>${sqlserver.version}</version>
+      <!--<scope>test</scope>-->
+    </dependency>
+
     <dependency>
       <groupId>com.jfoenix</groupId>
       <artifactId>jfoenix</artifactId>

@@ -18,7 +18,7 @@ package org.mbari.m3.vars.query.old.services.annotation;
 import java.util.Date;
 import java.util.Set;
 
-import org.mbari.m3.vars.query.old.util.PropertyChange;
+import org.mbari.m3.vars.query.util.PropertyChange;
 
 /**
  *

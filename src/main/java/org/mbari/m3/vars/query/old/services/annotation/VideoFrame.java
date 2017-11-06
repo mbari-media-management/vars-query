@@ -23,7 +23,7 @@ package org.mbari.m3.vars.query.old.services.annotation;
 
 import java.util.Date;
 import java.util.List;
-import org.mbari.m3.vars.query.old.model.VideoMoment;
+import org.mbari.m3.vars.query.model.VideoMoment;
 
 /**
  *

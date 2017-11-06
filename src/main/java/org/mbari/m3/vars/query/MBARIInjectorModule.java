@@ -6,7 +6,9 @@ import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.mbari.m3.vars.query.services.AnnotationService;
+import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.services.ConceptService;
+import org.mbari.m3.vars.query.services.M3AsyncQueryServiceImpl;
 import org.mbari.m3.vars.query.services.annosaurus.jdbc.AnnotationServiceImpl;
 import org.mbari.m3.vars.query.services.varskbserver.v1.KBConceptService;
 import org.mbari.m3.vars.query.services.varskbserver.v1.KBWebServiceFactory;
@@ -31,8 +33,9 @@ public class MBARIInjectorModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(AnnotationService.class).toInstance(new AnnotationServiceImpl());
         configureConceptService(binder);
+        binder.bind(AnnotationService.class).toInstance(new AnnotationServiceImpl());
+        binder.bind(AsyncQueryService.class).to(M3AsyncQueryServiceImpl.class);
     }
 
     private void configureConceptService(Binder binder) {

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.bushe.swing.event.EventBus;
 import org.bushe.swing.event.EventTopicSubscriber;
 import org.mbari.m3.vars.query.old.services.misc.UserAccount;
-import org.mbari.m3.vars.query.old.shared.ui.event.LoggingTopicSubscriber;
+import org.mbari.m3.vars.query.shared.ui.event.LoggingTopicSubscriber;
 
 import java.awt.Frame;
 import java.io.File;

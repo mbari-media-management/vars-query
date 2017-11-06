@@ -2,7 +2,9 @@ package org.mbari.m3.vars.query.services;
 
 import org.mbari.m3.vars.query.model.Association;
 
+import java.sql.Connection;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -67,4 +69,14 @@ public interface AnnotationService {
      *      second element is the max.
      */
     List<Number> findMinMax(String columnName);
+
+    /**
+     * Find the min and max dates for a timestamp column
+     * @param columnName The name of the column
+     * @return A 2-element list. The first element is the min and
+     *      the second element is the max.
+     */
+    List<Date> findDateBounds(String columnName);
+
+    Connection getDatabaseConnection();
 }

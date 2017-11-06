@@ -24,8 +24,8 @@ import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseFactory;
 import org.mbari.m3.vars.query.old.services.query.QueryPersistenceService;
 import org.mbari.m3.vars.query.old.services.misc.MiscDAOFactory;
 import org.mbari.m3.vars.query.old.services.misc.MiscFactory;
-import org.mbari.m3.vars.query.old.util.PersistenceCache;
-import org.mbari.m3.vars.query.old.util.PersistenceCacheProvider;
+import org.mbari.m3.vars.query.util.PersistenceCache;
+import org.mbari.m3.vars.query.util.PersistenceCacheProvider;
 
 /**
  *

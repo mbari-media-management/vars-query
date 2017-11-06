@@ -20,7 +20,7 @@
 
 package org.mbari.m3.vars.query.old.services.misc;
 
-import org.mbari.m3.vars.query.old.model.VARSObject;
+import org.mbari.m3.vars.query.model.VARSObject;
 
 /**
  *

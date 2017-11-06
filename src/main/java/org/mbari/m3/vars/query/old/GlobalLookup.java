@@ -17,7 +17,7 @@ import org.bushe.swing.event.EventBus;
 import org.bushe.swing.event.EventTopicSubscriber;
 import org.mbari.m3.vars.query.old.services.misc.UserAccount;
 import org.mbari.util.Dispatcher;
-import org.mbari.m3.vars.query.old.shared.ui.event.LoggingTopicSubscriber;
+import org.mbari.m3.vars.query.shared.ui.event.LoggingTopicSubscriber;
 
 /**
  * Central lookup for coordinating shared UI resources.

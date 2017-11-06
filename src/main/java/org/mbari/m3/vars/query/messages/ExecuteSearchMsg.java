@@ -1,9 +1,9 @@
 package org.mbari.m3.vars.query.messages;
 
-import org.mbari.m3.vars.query.old.model.beans.ResultsCustomization;
-import org.mbari.m3.vars.query.old.ui.db.ConceptConstraint;
-import org.mbari.m3.vars.query.old.ui.db.IConstraint;
-import org.mbari.m3.vars.query.old.shared.rx.messages.Msg;
+import org.mbari.m3.vars.query.model.beans.ResultsCustomization;
+import org.mbari.m3.vars.query.ui.db.ConceptConstraint;
+import org.mbari.m3.vars.query.ui.db.IConstraint;
+import org.mbari.m3.vars.query.shared.rx.messages.Msg;
 
 import java.util.List;
 
