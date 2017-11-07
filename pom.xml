@@ -6,9 +6,44 @@
   <artifactId>vars-query</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>vars-query</name>
+  <name>VARS Query</name>
   <url>http://maven.apache.org</url>
   <properties>
+    <!-- Installer Filename without suffix -->
+    <app.filename>VARS Annotation</app.filename>
+
+    <!-- The JavaFX Application class name -->
+    <app.mainClass>org.mbari.m3.vars.query.App</app.mainClass>
+
+    <!-- Optional override to specify where the cached files are stored. Default is current working directory -->
+    <!--<app.cacheDir>USERLIB/VarsAnnotation</app.cacheDir>-->
+
+    <!-- Optional parameters to the application, will be embedded in the launcher and can be overriden on the command line -->
+    <app.parameters>--myOption=myValue --myOtherOption=myOtherValue</app.parameters>
+
+    <!-- The Application vendor used by javapackager -->
+    <app.vendor>Monterey Bay Aquarium Research Institute</app.vendor>
+
+    <!-- The Application version used by javapackager -->
+    <app.version>${project.version}</app.version>
+
+    <!-- Base URL where you will host the application artifacts -->
+    <!--<app.url>http://dsg.mbari.org/m3/vars-annotation/</app.url>-->
+    <app.url>http://m3.shore.mbari.org/apps/vars-query/</app.url>
+
+    <!-- Optional scp target for application artifacts hosted at the above url -->
+    <app.deploy.target>brian@m3.shore.mbari.org:/var/www/html/apps/vars-query</app.deploy.target>
+
+    <!-- The app and launcher will be assembled in this folder -->
+    <app.dir>${project.build.directory}/app</app.dir>
+
+    <!-- Native installers will be built in this folder -->
+    <app.installerdir>${project.build.directory}/installer</app.installerdir>
+
+    <!-- Should the client downgrade if the server version is older than the local version? -->
+    <app.acceptDowngrade>false</app.acceptDowngrade>
+
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <config.version>1.3.1</config.version>
     <converter-gson.version>2.3.0</converter-gson.version>
@@ -146,10 +181,11 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- Compile project jar to appdir -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.5</version>
+        <version>3.0.2</version>
         <configuration>
           <archive>
             <index>true</index>
@@ -162,7 +198,27 @@
               <url>${project.url}</url>
             </manifestEntries>
           </archive>
+          <outputDirectory>${app.dir}</outputDirectory>
         </configuration>
+      </plugin>
+      <!-- Copy dependencies to appdir -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <excludeScope>provided</excludeScope>
+          <outputDirectory>${app.dir}</outputDirectory>
+          <stripVersion>true</stripVersion>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -176,9 +232,51 @@
           </compilerArgs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.zenjava</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>8.6.0</version>
+        <configuration>
+          <mainClass>${app.mainClass}</mainClass>
+          <verbose>true</verbose>
+          <identifier>VARSAnnotation</identifier>
+          <vendor>Monterey Bay Aquarium Research Institute</vendor>
+          <appName>${project.name}</appName>
+          <bundleArguments>
+            <!-- to include "dtjava.js" and other related files, set this to TRUE -->
+            <jnlp.includeDT>true</jnlp.includeDT>
+            <jnlp.outfile>${project.name}</jnlp.outfile>
+          </bundleArguments>
+        </configuration>
+        <executions>
+          <execution>
+            <!-- required before build-native -->
+            <id>create-jfxjar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build-jar</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>create-native</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build-native</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray-jerady-maven</id>
+      <name>bintray</name>
+      <url>http://dl.bintray.com/jerady/maven</url>
+    </repository>
     <repository>
       <snapshots>
         <enabled>false</enabled>
