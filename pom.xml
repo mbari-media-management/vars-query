@@ -37,7 +37,6 @@
       <version>${sqlserver.version}</version>
       <!--<scope>test</scope>-->
     </dependency>
-
     <dependency>
       <groupId>com.jfoenix</groupId>
       <artifactId>jfoenix</artifactId>
@@ -46,6 +45,11 @@
     <dependency>
       <groupId>org.mbari.vcr4j</groupId>
       <artifactId>vcr4j-core</artifactId>
+      <version>${vcr4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mbari.vcr4j</groupId>
+      <artifactId>vcr4j-sharktopoda</artifactId>
       <version>${vcr4j.version}</version>
     </dependency>
     <dependency>

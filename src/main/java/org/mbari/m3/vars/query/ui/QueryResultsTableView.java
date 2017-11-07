@@ -1,29 +1,35 @@
 package org.mbari.m3.vars.query.ui;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import org.mbari.m3.vars.query.Initializer;
 import org.mbari.m3.vars.query.ui.javafx.stage.ImageStage;
 import org.mbari.net.URLUtilities;
 import org.mbari.util.Tuple2;
 import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 import org.mbari.m3.vars.query.ui.javafx.application.ImageFX;
+import org.mbari.vcr4j.commands.SeekElapsedTimeCmd;
+import org.mbari.vcr4j.sharktopoda.SharktopodaVideoIO;
+import org.mbari.vcr4j.sharktopoda.commands.OpenCmd;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -62,6 +68,7 @@ public class QueryResultsTableView {
         // Generate a table column for each name
         for (int i = 0; i < columnNames.size(); i++) {
             TableColumn<String[], String> column = new TableColumn<>(columnNames.get(i));
+            column.setId(columnNames.get(i));
             final int j = i;
             column.setCellValueFactory(param ->
                     new SimpleStringProperty(param.getValue()[j]));
@@ -88,6 +95,11 @@ public class QueryResultsTableView {
         Function<String[], Void> showImageFn = rowItem -> {
             List<String> urls = Arrays.stream(rowItem)
                     .filter(s -> s.startsWith("http") || s.startsWith("file"))
+                    .flatMap(s -> Arrays.stream(s.split(",")))
+                    .filter(s -> {
+                        String uc = s.toUpperCase();
+                        return uc.endsWith("JPG") || uc.endsWith("PNG");
+                    })
                     .collect(Collectors.toList());
             if (!urls.isEmpty() && ext != null) {
                 final String imageLocation = urls.get(0);
@@ -132,7 +144,68 @@ public class QueryResultsTableView {
             }
         });
 
+        MenuItem openInSharkMenuItem = new MenuItem("Open video");
+        openInSharkMenuItem.setOnAction(evt -> openVideo(tableView));
+        ContextMenu contextMenu = new ContextMenu();
+        contextMenu.getItems().add(openInSharkMenuItem);
+        tableView.setContextMenu(contextMenu);
+
+
         return  tableView;
+    }
+
+    private static void openVideo(TableView<String[]> tableView) {
+
+        String[] rowItem = tableView.getSelectionModel().getSelectedItem();
+        Logger log = LoggerFactory.getLogger(QueryResultsTableView.class);
+
+        List<String> urls = Arrays.stream(rowItem)
+                .filter(s -> s.startsWith("http") || s.startsWith("file"))
+                .flatMap(s -> Arrays.stream(s.split(",")))
+                .filter(s -> {
+                    String uc = s.toUpperCase();
+                    return uc.endsWith("MP4") || uc.endsWith("MOV");
+                })
+                .collect(Collectors.toList());
+
+        if (!urls.isEmpty()) {
+            // --- Open video
+            try {
+                URL mediaUrl = new URI(urls.get(0)).toURL();
+                int port = Initializer.CONFIG.getInt("sharktopoda.port");
+                SharktopodaVideoIO videoIO = new SharktopodaVideoIO(UUID.randomUUID(), "localhost", port);
+                videoIO.send(new OpenCmd(mediaUrl));
+
+                // --- Jump to correct index in video
+                String timeColName = Initializer.CONFIG.getString("vars.query.elapsed.time.column");
+                List<String> columnNames = tableView.getColumns().stream()
+                        .map(TableColumn::getId)
+                        .collect(Collectors.toList());
+
+                Optional<String> timeColumn = columnNames.stream()
+                        .filter(s -> s.equalsIgnoreCase(timeColName))
+                        .findFirst();
+                timeColumn.ifPresent(s -> {
+                    int idx = columnNames.indexOf(s);
+
+                    try {
+                        String elapsedTime = rowItem[idx];
+                        long millis = Long.parseLong(elapsedTime);
+                        Duration duration = Duration.ofMillis(millis);
+                        videoIO.send(new SeekElapsedTimeCmd(duration));
+                    }
+                    catch (Exception e) {
+                        log.warn("Failed to jump to video index", e);
+                    }
+
+                });
+            }
+            catch (Exception e) {
+                log.warn("Failed to open video ", e);
+            }
+
+
+        }
     }
 
 
