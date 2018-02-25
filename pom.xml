@@ -126,11 +126,25 @@
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <Application-Name>VARS QueryFX</Application-Name>
+              <Application-Name>VARS Query</Application-Name>
               <Permissions>all-permissions</Permissions>
               <url>${project.url}</url>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+            <argument>-Djava.library.path=${project.build.directory}/lib</argument>
+            <argument>-classpath</argument>
+            <classpath/>
+            <argument>vars.query.ui.App</argument>
+          </arguments>
         </configuration>
       </plugin>
       <plugin>
@@ -144,6 +158,25 @@
             <arg>-Xlint:all,-options,-path</arg>
           </compilerArgs>
         </configuration>
+      </plugin>
+      <!-- Generate an assembly -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/pack.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
