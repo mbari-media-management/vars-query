@@ -4,12 +4,12 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.util.BuilderFactory;
-import org.mbari.m3.vars.query.Resource;
+import org.mbari.m3.vars.query.old.Resource;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.services.AsyncQueryServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.mbari.m3.vars.query.services.jpa.VarsJpaModule;
+import org.mbari.m3.vars.query.old.services.jpa.VarsJpaModule;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

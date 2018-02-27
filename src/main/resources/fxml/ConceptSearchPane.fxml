@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.mbari.m3.vars.query.uiorg.mbari.m3.vars.query.ui.ConceptSearchPaneController">
+   <children>
+      <ComboBox fx:id="comboBox" VBox.vgrow="ALWAYS" />
+      <HBox fx:id="root" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="%search.extendto.label" />
+            <CheckBox fx:id="parentCheckBox" mnemonicParsing="false" text="%search.extendto.parent" />
+            <CheckBox fx:id="siblingsCheckBox" mnemonicParsing="false" text="%search.extendto.parentsearch.extendto.siblings" />
+            <CheckBox fx:id="childrenCheckBox" mnemonicParsing="false" text="%search.extendto.parentsearch.extendto.children" />
+            <CheckBox fx:id="descendantCheckBox" mnemonicParsing="false" text="%search.extendto.parentsearch.extendto.descendants" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

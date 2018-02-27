@@ -1,24 +1,21 @@
 package org.mbari.m3.vars.query;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Injector;
 import com.guigarage.sdk.Application;
 import com.guigarage.sdk.action.Action;
 import com.guigarage.sdk.container.WorkbenchView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
+import org.mbari.m3.vars.query.old.GlobalStateLookup;
 import org.mbari.m3.vars.query.util.StateLookup;
-import org.mbari.m3.vars.query.util.ToolBelt;
 import org.mbari.m3.vars.query.model.beans.QueryParams;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResultsCustomization;
 import org.mbari.m3.vars.query.ui.AppIcons;
-import org.mbari.m3.vars.query.ui.controllers.AppController;
-import org.mbari.m3.vars.query.ui.controllers.SaveResultsController;
+import org.mbari.m3.vars.query.controllers.SaveResultsController;
 import org.mbari.m3.vars.query.ui.db.ConceptConstraint;
 import org.mbari.m3.vars.query.ui.javafx.application.ImageFX;
-import org.mbari.m3.vars.query.shared.rx.RXEventBus;
 import org.mbari.m3.vars.query.shared.rx.messages.AbstractExceptionMsg;
 import org.mbari.m3.vars.query.shared.rx.messages.Msg;
 import org.slf4j.Logger;
@@ -35,8 +32,6 @@ import org.mbari.m3.vars.query.ui.sdkfx.ConceptConstraintsWorkbench;
 import org.mbari.m3.vars.query.ui.sdkfx.ConceptMedia;
 import org.mbari.m3.vars.query.ui.sdkfx.CustomizeResultsWorkbench;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -51,9 +46,9 @@ public class App {
      * 378720000 = 1982-01-01
      */
     public static final Date MIN_RECORDED_DATE = new Date(378720000L * 1000L);
-    private RXEventBus eventBus = new RXEventBus();
+    private EventBus eventBus = new EventBus();
     private static Logger log;
-    private final ToolBelt toolBelt;
+    private final UIToolBox toolBox;
     private Application application;
     private final AppController appController;
     private final SaveResultsController saveResultsController;
@@ -62,11 +57,11 @@ public class App {
     private CustomizeResultsWorkbench customizeResultsWorkbench;
     private AdvancedSearchWorkbench advancedSearchWorkbench;
 
-    public App(ToolBelt toolBelt) {
-        Preconditions.checkArgument(toolBelt != null);
-        this.appController = new AppController(toolBelt.getQueryService(), eventBus, toolBelt.getExecutor());
-        this.saveResultsController = new SaveResultsController(eventBus, toolBelt.getExecutor());
-        this.toolBelt = toolBelt;
+    public App(UIToolBox toolBox) {
+        Preconditions.checkArgument(toolBox != null);
+        this.appController = new AppController(toolBox.getQueryService(), eventBus, toolBox.getExecutor());
+        this.saveResultsController = new SaveResultsController(eventBus, toolBox.getExecutor());
+        this.toolBox = toolBox;
 
         eventBus.toObserverable()
                 .ofType(NewResolvedConceptSelectionMsg.class)
@@ -173,7 +168,7 @@ public class App {
     protected ConceptConstraintsWorkbench getConceptConstraintsWorkbench(Application app) {
         if (conceptConstraintsWorkbench == null) {
             conceptConstraintsWorkbench = new ConceptConstraintsWorkbench(
-                    toolBelt.getQueryService(), toolBelt.getExecutor(), eventBus);
+                    toolBox.getQueryService(), toolBox.getExecutor(), eventBus);
 //            conceptConstraintsWorkbench.getFormLayout().addActions(new Action(AppIcons.TRASH, "Cancel", () -> showBasicSearch(app)),
 //                    new Action(AppIcons.PLUS, "Apply", () -> {
 //                        ConceptSelection conceptSelection = conceptConstraintsWorkbench.getConceptSelection();
@@ -193,7 +188,7 @@ public class App {
 
     protected AdvancedSearchWorkbench getAdvancedSearchWorkbench() {
         if (advancedSearchWorkbench == null) {
-            advancedSearchWorkbench = new AdvancedSearchWorkbench(toolBelt.getQueryService(), eventBus);
+            advancedSearchWorkbench = new AdvancedSearchWorkbench(toolBox.getQueryService(), eventBus);
         }
         return advancedSearchWorkbench;
     }
@@ -228,11 +223,9 @@ public class App {
         /*
           Log uncaught Exceptions
          */
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread thread, Throwable e) {
-                Logger log = LoggerFactory.getLogger(thread.getClass());
-                log.error("Exception in thread [" + thread.getName() + "]", e);
-            }
+        Thread.setDefaultUncaughtExceptionHandler((thread, e) -> {
+            Logger log = LoggerFactory.getLogger(thread.getClass());
+            log.error("Exception in thread [" + thread.getName() + "]", e);
         });
 
         final Logger mainLog = getLog();
@@ -242,22 +235,21 @@ public class App {
             mainLog.info("This application was launched at " + date.toString());
         }
 
-        Injector injector = StateLookup.getInjector();
-        ToolBelt toolBelt = injector.getInstance(ToolBelt.class);
+        UIToolBox toolBox = Initializer.getToolBox();
 
         // Check that we can connect to the database. JDBC driver doesn't seem to get initialize
         // correctly in Java Webstart unless we do this.
         // TODO (20150712 brian) after switch away from ForkJoinPool this may no longer be needed
-        try {
-            Connection connection = toolBelt.getQueryService().getAnnotationConnection();
-            connection.close();
-        }
-        catch (SQLException e) {
-            getLog().error("Failed to connect to annotation database", e);
-        }
+//        try {
+//            Connection connection = toolBelt.getQueryService().getAnnotationConnection();
+//            connection.close();
+//        }
+//        catch (SQLException e) {
+//            getLog().error("Failed to connect to annotation database", e);
+//        }
 
 
-        App app = new App(toolBelt);
+        App app = new App(toolBox);
         StateLookup.setApp(app);
         ImageFX.setIsJavaFXRunning(true);
         app.getApplication().setPrefSize(800, 900);

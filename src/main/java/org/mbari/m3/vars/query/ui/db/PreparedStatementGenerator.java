@@ -42,29 +42,29 @@ public class PreparedStatementGenerator {
             ResultsCustomization resultsCustomization) {
 
         StringBuilder sb = new StringBuilder(getSelectClause(queryReturns));
-        sb.append(" FROM Annotations");
+        sb.append(" FROM annotations");
 
         String whereClause = getWhereClause(conceptConstraints, queryConstraints);
         if (!whereClause.isEmpty()) {
             if (resultsCustomization.isConcurrentObservations()
                     && resultsCustomization.isRelatedAssociations()) {
 
-                sb.append(" WHERE ObservationID_FK IN")
-                        .append(" (SELECT ObservationID_FK FROM Annotations")
-                        .append(" WHERE VideoFrameID_FK IN")
-                        .append(" (SELECT VideoFrameID_FK FROM Annotations")
+                sb.append(" WHERE observation_uuid IN")
+                        .append(" (SELECT observation_uuid FROM annotations")
+                        .append(" WHERE imaged_moment_uuid IN")
+                        .append(" (SELECT imaged_moment_uuid FROM annotations")
                         .append(" WHERE ").append(whereClause).append("))");
 
 
             }
             else if (resultsCustomization.isConcurrentObservations()) {
-                sb.append(" WHERE VideoFrameID_FK IN")
-                        .append(" (SELECT VideoFrameID_FK FROM Annotations")
+                sb.append(" WHERE imaged_moment_uuid IN")
+                        .append(" (SELECT imaged_moment_uuid FROM annotations")
                         .append(" WHERE ").append(whereClause).append(")");
             }
             else if (resultsCustomization.isRelatedAssociations()) {
-                sb.append(" WHERE ObservationID_FK IN")
-                        .append(" (SELECT ObservationID_FK FROM Annotations")
+                sb.append(" WHERE observation_uuid IN")
+                        .append(" (SELECT observation_uuid FROM annotations")
                         .append(" WHERE ").append(whereClause).append(")");
             }
             else {
@@ -75,7 +75,7 @@ public class PreparedStatementGenerator {
     }
 
     private String getSelectClause(List<String> queryReturns) {
-        StringBuilder sb = new StringBuilder("SELECT ObservationID_FK");
+        StringBuilder sb = new StringBuilder("SELECT observation_uuid");
         if (!queryReturns.isEmpty()) {
             sb.append(", ");
             sb.append(queryReturns.stream()

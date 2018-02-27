@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 import org.mbari.m3.vars.query.util.LinkUtilities;
-import org.mbari.m3.vars.query.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 

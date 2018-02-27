@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9">
+<GridPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.mbari.m3.vars.annotation.ui.abpanelorg.mbari.m3.vars.annotation.ui.abpanel.AssocSelectionPaneController">
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
     <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
@@ -16,19 +16,11 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="Label" GridPane.rowIndex="2" />
-      <Label text="Label" GridPane.rowIndex="1" />
-      <Label text="Label" GridPane.rowIndex="3" />
-      <Label text="Label" GridPane.rowIndex="4" />
-      <TextField GridPane.columnIndex="1" />
-      <Label text="Label" />
-      <ComboBox GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Label fx:id="assocLabel" text="%abpane.selection" GridPane.rowIndex="1" />
+      <TextField fx:id="searchTextField" promptText="%abpanel.search" GridPane.columnSpan="2147483647" />
+      <ComboBox fx:id="assocComboBox" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+      <TextField fx:id="nicknameTextField" promptText="%abpane.nickname" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
    </children>
 </GridPane>

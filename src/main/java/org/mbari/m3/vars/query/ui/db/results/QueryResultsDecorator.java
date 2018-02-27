@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.ui.db.results;
 
-import org.mbari.m3.vars.query.services.knowledgebase.Concept;
-import org.mbari.m3.vars.query.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class QueryResultsDecorator {
     public QueryResults addHierarchy(QueryResults queryResults)  {
         Set<String> columnNames = queryResults.getColumnNames();
         Optional<String> column  = columnNames.stream()
-                .filter(s -> s.equalsIgnoreCase("conceptname"))
+                .filter(s -> s.equalsIgnoreCase("concept"))
                 .findFirst();
 
         if (!column.isPresent()) {
@@ -83,7 +83,7 @@ public class QueryResultsDecorator {
 
         Set<String> columnNames = queryResults.getColumnNames();
         Optional<String> column  = columnNames.stream()
-                .filter(s -> s.equalsIgnoreCase("conceptname"))
+                .filter(s -> s.equalsIgnoreCase("concept"))
                 .findFirst();
 
         if (!column.isPresent()) {

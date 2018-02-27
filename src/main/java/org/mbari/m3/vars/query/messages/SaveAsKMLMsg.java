@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.messages;
 
 
-import org.mbari.m3.vars.query.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 
 import java.io.File;
 import java.util.Optional;

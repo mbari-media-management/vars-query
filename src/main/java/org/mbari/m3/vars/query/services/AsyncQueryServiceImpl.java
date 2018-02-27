@@ -2,15 +2,15 @@ package org.mbari.m3.vars.query.services;
 
 import com.google.common.base.Preconditions;
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.m3.vars.query.services.knowledgebase.Concept;
-import org.mbari.m3.vars.query.services.knowledgebase.KnowledgebaseDAOFactory;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseDAOFactory;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 import org.mbari.sql.QueryResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.mbari.m3.vars.query.services.knowledgebase.ConceptName;
-import org.mbari.m3.vars.query.services.knowledgebase.Media;
-import org.mbari.m3.vars.query.services.query.QueryPersistenceService;
+import org.mbari.m3.vars.query.old.services.knowledgebase.ConceptName;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Media;
+import org.mbari.m3.vars.query.old.services.query.QueryPersistenceService;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 
 import javax.inject.Inject;
@@ -216,6 +216,7 @@ public class AsyncQueryServiceImpl implements AsyncQueryService {
                 conceptSelection.isExtendToDescendants())
                 .thenApplyAsync(list -> new ResolvedConceptSelection(conceptSelection, list), executor);
     }
+
 
 }
 

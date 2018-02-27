@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.services;
 
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.m3.vars.query.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 

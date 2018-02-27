@@ -6,13 +6,13 @@ import com.google.inject.Injector;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.mbari.m3.vars.query.App;
-import org.mbari.m3.vars.query.GlobalStateLookup;
+import org.mbari.m3.vars.query.old.GlobalStateLookup;
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.m3.vars.query.services.knowledgebase.Concept;
-import org.mbari.m3.vars.query.services.knowledgebase.SimpleConceptBean;
-import org.mbari.m3.vars.query.services.knowledgebase.SimpleConceptNameBean;
+import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.old.services.knowledgebase.SimpleConceptBean;
+import org.mbari.m3.vars.query.old.services.knowledgebase.SimpleConceptNameBean;
 import org.mbari.m3.vars.query.model.LinkBean;
-import org.mbari.m3.vars.query.services.knowledgebase.ConceptNameTypes;
+import org.mbari.m3.vars.query.old.services.knowledgebase.ConceptNameTypes;
 
 import java.time.Instant;
 import java.time.ZoneId;

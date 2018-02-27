@@ -23,9 +23,9 @@ import org.mbari.m3.vars.query.model.LinkBean;
 import org.mbari.m3.vars.query.util.LinkUtilities;
 import org.mbari.m3.vars.query.messages.NewConceptSelectionMsg;
 import org.mbari.m3.vars.query.util.StateLookup;
-import org.mbari.m3.vars.query.shared.rx.RXEventBus;
+import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
-import org.mbari.m3.vars.query.ui.javafx.scene.control.AutoCompleteComboBoxListener;
+import org.mbari.m3.vars.query.ui.shared.AutoCompleteComboBoxListener;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
     private EditorFormRow<TextField> linkValueRow = new EditorFormRow<>("value", new TextField());
 
 
-    private final RXEventBus eventBus;
+    private final EventBus eventBus;
     private final Executor executor;
     private final AsyncQueryService queryService;
     private volatile CompletableFuture<List<ILink>> runningFuture;
@@ -66,7 +66,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
-    public ConceptConstraintsWorkbench(AsyncQueryService queryService, Executor executor, RXEventBus eventBus) {
+    public ConceptConstraintsWorkbench(AsyncQueryService queryService, Executor executor, EventBus eventBus) {
         this.queryService = queryService;
         this.executor = executor;
         this.eventBus = eventBus;
@@ -356,7 +356,6 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
         else {
             Platform.runLater(r);
         }
-
     }
 
 

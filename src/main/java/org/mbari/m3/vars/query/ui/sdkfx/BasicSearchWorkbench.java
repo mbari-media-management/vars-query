@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 import org.mbari.m3.vars.query.ui.AppIcons;
-import org.mbari.m3.vars.query.shared.rx.RXEventBus;
+import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.messages.ShowConceptConstraintsWorkbenchMsg;
 
 import java.util.List;
@@ -23,9 +23,9 @@ public class BasicSearchWorkbench extends WorkbenchView {
 
     private final MediaList<ConceptMedia> mediaList = new MediaList<>();
     private final ObservableList<ConceptSelection> conceptSelections = FXCollections.observableArrayList();
-    private final RXEventBus eventBus;
+    private final EventBus eventBus;
 
-    public BasicSearchWorkbench(RXEventBus eventBus) {
+    public BasicSearchWorkbench(EventBus eventBus) {
         this.eventBus = eventBus;
         ActionFooter footer = new ActionFooter();
         footer.addAction(new Action(AppIcons.PLUS, "Add Search Term",

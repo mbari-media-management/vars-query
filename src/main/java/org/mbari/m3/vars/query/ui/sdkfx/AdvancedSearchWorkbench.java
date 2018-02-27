@@ -17,7 +17,7 @@ import org.mbari.m3.vars.query.shared.rx.messages.FatalExceptionMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.util.StateLookup;
-import org.mbari.m3.vars.query.shared.rx.RXEventBus;
+import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.model.beans.QueryParams;
 
 import java.util.*;
@@ -34,11 +34,11 @@ public class AdvancedSearchWorkbench extends WorkbenchView {
     private ObservableList<AbstractValuePanel> valuePanels = FXCollections.observableArrayList();
 
     private final AsyncQueryService queryService;
-    private final RXEventBus eventBus;
+    private final EventBus eventBus;
     private final FormLayout formLayout;
 
 
-    public AdvancedSearchWorkbench(AsyncQueryService queryService, RXEventBus eventBus) {
+    public AdvancedSearchWorkbench(AsyncQueryService queryService, EventBus eventBus) {
         this.queryService = queryService;
         this.eventBus = eventBus;
         this.formLayout = new FormLayout();

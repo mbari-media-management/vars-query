@@ -105,16 +105,16 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
                     .map(s -> "'" + s + "'")
                     .collect(Collectors.joining(", "));
 
-            sb.append("(ConceptName IN (");
+            sb.append("(concept IN (");
             sb.append(cns);
             sb.append(")");
 
 
             if (hasToConcept) {
-                sb.append(" AND ToConcept = '").append(link.getToConcept()).append("'");
+                sb.append(" AND to_concept = '").append(link.getToConcept()).append("'");
             }
             else {
-                sb.append(" OR ToConcept IN (")
+                sb.append(" OR to_concept IN (")
                         .append(cns)
                         .append(")");
             }
@@ -122,15 +122,15 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
             sb.append(")");
         }
         else if (hasToConcept) {
-            sb.append("ToConcept = '").append(link.getToConcept()).append("'");
+            sb.append("to_concept = '").append(link.getToConcept()).append("'");
         }
 
         if (hasLinkName) {
-            sb.append(" AND LinkName = '").append(link.getLinkName()).append("'");
+            sb.append(" AND link_name = '").append(link.getLinkName()).append("'");
         }
 
         if (hasLinkValue) {
-            sb.append(" AND LinkValue = '").append(link.getLinkValue()).append("'");
+            sb.append(" AND link_name = '").append(link.getLinkValue()).append("'");
         }
         sb.append(")");
 
@@ -153,16 +153,16 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
                     .map(s -> "?")
                     .collect(Collectors.joining(", "));
 
-            sb.append("(ConceptName IN (");
+            sb.append("(concept IN (");
             sb.append(cns);
             sb.append(")");
 
 
             if (hasToConcept) {
-                sb.append(" AND ToConcept = ? ");
+                sb.append(" AND to_concept = ? ");
             }
             else {
-                sb.append(" OR ToConcept IN (")
+                sb.append(" OR to_concept IN (")
                         .append(cns)
                         .append(")");
             }
@@ -170,15 +170,15 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
             sb.append(")");
         }
         else if (hasToConcept) {
-            sb.append("ToConcept = ?");
+            sb.append("to_concept = ?");
         }
 
         if (hasLinkName) {
-            sb.append(" AND LinkName = ?");
+            sb.append(" AND link_name = ?");
         }
 
         if (hasLinkValue) {
-            sb.append(" AND LinkValue = ?");
+            sb.append(" AND link_value = ?");
         }
         sb.append(")");
 

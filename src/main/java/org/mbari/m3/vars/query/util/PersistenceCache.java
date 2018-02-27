@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.mbari.m3.vars.query.services.annotation.AnnotationObject;
-import org.mbari.m3.vars.query.services.knowledgebase.KnowledgebaseObject;
+import org.mbari.m3.vars.query.old.services.annotation.AnnotationObject;
+import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -14,6 +14,7 @@ package org.mbari.m3.vars.query.model;
 
 import java.util.Comparator;
 
+import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.text.IgnoreCaseToStringComparator;
 
 /**
