@@ -7,4 +7,4 @@ ${JAVACMD:=java} -Xms16m -Xmx512m \
          -Duser.timezone="UTC" \
          -Dfile.encoding=UTF8 \
          -classpath "$VARS_CLASSPATH" \
-         vars.query.ui.App "$@" 
+         org.mbari.m3.vars.query.App "$@" 
