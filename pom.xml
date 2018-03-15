@@ -6,11 +6,11 @@
   <artifactId>vars-query</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>vars-query</name>
+  <name>VARS Query</name>
   <url>http://maven.apache.org</url>
   <properties>
     <!-- Installer Filename without suffix -->
-    <app.filename>VARS Annotation</app.filename>
+    <app.filename>VARS Query</app.filename>
 
     <!-- The JavaFX Application class name -->
     <app.mainClass>org.mbari.m3.vars.query.App</app.mainClass>
@@ -193,7 +193,7 @@
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <Application-Name>VARS QueryFX</Application-Name>
+              <Application-Name>VARS Query</Application-Name>
               <Permissions>all-permissions</Permissions>
               <url>${project.url}</url>
             </manifestEntries>
@@ -272,7 +272,7 @@
         <configuration>
           <mainClass>${app.mainClass}</mainClass>
           <verbose>true</verbose>
-          <identifier>VARSAnnotation</identifier>
+          <identifier>VARSQuery</identifier>
           <vendor>Monterey Bay Aquarium Research Institute</vendor>
           <appName>${project.name}</appName>
           <bundleArguments>
