@@ -1,14 +1,15 @@
 package org.mbari.m3.vars.query.services;
 
+import org.mbari.m3.vars.query.model.Concept;
 import org.mbari.m3.vars.query.model.ConceptDetails;
 import org.mbari.m3.vars.query.model.ConceptMedia;
 import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
-import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.services.varskbserver.v1.HierarchyDecorator;
 
 import javax.inject.Inject;
+import javax.swing.text.html.Option;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -51,12 +52,41 @@ public class M3AsyncQueryServiceImpl implements AsyncQueryService {
 
     @Override
     public CompletableFuture<List<Concept>> findAncestors(String conceptName) {
-        return null;
+        return conceptService.findAncestors(conceptName)
+            .thenApply(opt -> {
+                List<Concept> children = new ArrayList<>();
+                if (opt.isPresent()) {
+                    Concept concept = opt.get();
+                    accumulateChildren(concept, children);
+                }
+                return children;
+            });
+    }
+
+    private void accumulateChildren(Concept concept, List<Concept> accum) {
+        accum.add(concept);
+        List<Concept> children = concept.getChildren();
+        if (children != null) {
+            children.forEach(c -> accumulateChildren(c, accum));
+        }
     }
 
     @Override
     public CompletableFuture<Optional<Concept>> findConcept(String name) {
-        return null;
+        final CompletableFuture<Optional<Concept>> cf = new CompletableFuture<>();
+        conceptService.findAncestors(name)
+                .thenAccept(opt -> {
+                    if (opt.isPresent()) {
+                        Concept concept = opt.get();
+                        conceptService.findDetails(name)
+                                .thenAccept(opt2 -> opt2.ifPresent(concept::setConceptDetails))
+                                .thenAccept(v -> cf.complete(Optional.of(concept)));
+                    }
+                    else {
+                        cf.complete(Optional.empty());
+                    }
+                });
+        return cf;
     }
 
     @Override

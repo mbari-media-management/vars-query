@@ -6,7 +6,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.util.BuilderFactory;
 import org.mbari.m3.vars.query.old.Resource;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
-import org.mbari.m3.vars.query.services.AsyncQueryServiceImpl;
+import org.mbari.m3.vars.query.services.M3AsyncQueryServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.old.services.jpa.VarsJpaModule;
@@ -39,7 +39,7 @@ public class QueryModule implements Module {
     public void configure(Binder binder) {
         binder.install(new VarsJpaModule(annotationPersistenceUnit, knowledgebasePersistenceUnit, miscPersistenceUnit));
         binder.bind(BuilderFactory.class).to(JavaFXBuilderFactory.class);
-        binder.bind(AsyncQueryService.class).to(AsyncQueryServiceImpl.class).asEagerSingleton();
+        binder.bind(AsyncQueryService.class).to(M3AsyncQueryServiceImpl.class).asEagerSingleton();
 
         // Fork join pool causes problems in java web start
         //binder.bind(Executor.class).to(ForkJoinPool.class).asEagerSingleton();

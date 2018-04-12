@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.services;
 
+import org.mbari.m3.vars.query.model.Concept;
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 
@@ -26,7 +26,7 @@ public interface AsyncQueryService {
 
     /**
      * Lookup all names that are associated with
-     * this {@link Concept} and its children. Ordered alphabetically.
+     * this {@link org.mbari.m3.vars.query.model.Concept} and its children. Ordered alphabetically.
      *
      *
      * @param conceptName The concept whos descendant names are returne

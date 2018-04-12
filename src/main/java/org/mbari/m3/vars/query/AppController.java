@@ -53,13 +53,11 @@ public class AppController {
 
 
         eventBus.toObserverable()
-                .filter(msg -> msg instanceof NewConceptSelectionMsg)
-                .map(msg -> (NewConceptSelectionMsg) msg)
+                .ofType(NewConceptSelectionMsg.class)
                 .subscribe(msg -> addConceptSelection(msg.getConceptSelection()));
 
         eventBus.toObserverable()
-                .filter(msg -> msg instanceof ExecuteSearchMsg)
-                .map(msg -> (ExecuteSearchMsg) msg)
+                .ofType(ExecuteSearchMsg.class)
                 .subscribe(this::executeSearch);
 
     }

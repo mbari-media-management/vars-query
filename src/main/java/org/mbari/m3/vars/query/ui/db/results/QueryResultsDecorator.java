@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query.ui.db.results;
 
-import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
+import org.mbari.m3.vars.query.model.Concept;
 import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class QueryResultsDecorator {
          * Create a list of all the unique conceptNames
          */
         List<String> conceptNameColumn = (List<String>) queryResults.getValues(column.get());
-        Set<String> uniqueNames = new HashSet<String>();
+        Set<String> uniqueNames = new HashSet<>();
         uniqueNames.addAll(conceptNameColumn);
         Map<String, String> hierarchy = new HashMap<>();
         for (String n : uniqueNames) {
@@ -56,7 +56,7 @@ public class QueryResultsDecorator {
             try {
                 List<Concept> ancestors = ancestorsF.get(5, TimeUnit.SECONDS);
                 String h = ancestors.stream()
-                        .map(c -> c.getPrimaryConceptName().getName())
+                        .map(Concept::getName)
                         .collect(Collectors.joining(","));
                 hierarchy.put(n, h);
             }
@@ -101,18 +101,7 @@ public class QueryResultsDecorator {
             try {
                 List<Concept> ancestors = ancestorsF.get(5, TimeUnit.SECONDS);
                 List<String> ranks = ancestors.stream()
-                        .map(c -> {
-                            String rankLevel = c.getRankLevel();
-                            String rankName = c.getRankName();
-                            String rank = null;
-                            if (rankLevel != null) {
-                                rank = rankLevel + rankName;
-                            }
-                            else if (rankName != null){
-                                rank = rankName;
-                            }
-                            return rank;
-                        })
+                        .map(Concept::getRank)
                         .collect(Collectors.toList());
 
                 List<String> ancestorNames = new ArrayList<>(Collections.nCopies(phylogeny.size(), ""));
@@ -122,7 +111,7 @@ public class QueryResultsDecorator {
                         int idx = phylogeny.indexOf(rank);
                         if (idx >= 0) {
                             //System.out.println("idx=" + idx + ",i=" + i + ",rank=" + rank + ",cn=" + ancestors.get(i).getPrimaryConceptName());
-                            ancestorNames.set(idx, ancestors.get(i).getPrimaryConceptName().getName());
+                            ancestorNames.set(idx, ancestors.get(i).getName());
                         }
                     }
                 }
