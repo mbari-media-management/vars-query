@@ -130,7 +130,7 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
         }
 
         if (hasLinkValue) {
-            sb.append(" AND link_name = '").append(link.getLinkValue()).append("'");
+            sb.append(" AND link_value = '").append(link.getLinkValue()).append("'");
         }
         sb.append(")");
 
@@ -173,12 +173,19 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
             sb.append("to_concept = ?");
         }
 
+
         if (hasLinkName) {
-            sb.append(" AND link_name = ?");
+            if (sb.length() > 1) {
+                sb.append(" AND");
+            }
+            sb.append(" link_name = ?");
         }
 
         if (hasLinkValue) {
-            sb.append(" AND link_value = ?");
+            if (sb.length() > 1) {
+                sb.append(" AND");
+            }
+            sb.append(" link_value = ?");
         }
         sb.append(")");
 
