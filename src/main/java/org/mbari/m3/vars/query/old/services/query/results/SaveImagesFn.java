@@ -45,6 +45,8 @@ public class SaveImagesFn {
                 if (!ok) {
                     break;
                 }
+
+                // Parse URLs from cells that contain comma delimited images
                 List<String> imageRefs = Arrays.stream(rows.get(i))
                         .filter(s -> {
                             String u = s.toUpperCase();
@@ -57,10 +59,13 @@ public class SaveImagesFn {
                                             u.endsWith(".TIFF") ||
                                             u.endsWith(".GIF"));
                         })
+                        .flatMap(v -> Arrays.stream(v.split(",")))
+                        .map(String::trim)
                         .collect(Collectors.toList());
-                if (!imageRefs.isEmpty()) {
+
+                for (String img : imageRefs) {
                     try {
-                        URL src = new URL(imageRefs.get(0));
+                        URL src = new URL(img);
                         File dst = urlToLocalPath(src);
                         if (log.isDebugEnabled()) {
                             log.debug("Saving " + src.toExternalForm() + " to " + dst.getAbsolutePath());
@@ -68,7 +73,7 @@ public class SaveImagesFn {
                         copy(src, dst);
                     }
                     catch (Exception e) {
-                        log.debug("Failed to save image from " + imageRefs.get(0));
+                        log.debug("Failed to save image from " + img);
                     }
                 }
             }
