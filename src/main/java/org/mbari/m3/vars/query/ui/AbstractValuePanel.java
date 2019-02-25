@@ -5,7 +5,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import org.mbari.m3.vars.query.ui.db.IConstraint;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +22,7 @@ public abstract class AbstractValuePanel extends HBox {
     private String title;
 
     public AbstractValuePanel(String valueName) {
-        this.valueName = demungeRawValueName(valueName);
+        this.valueName = prettifyValueName(valueName);
         constrainCheckBox = new CheckBox();
         constrainCheckBox.setTooltip(new Tooltip("constrain"));
         returnCheckBox = new CheckBox();
@@ -31,7 +30,7 @@ public abstract class AbstractValuePanel extends HBox {
         getChildren().addAll(returnCheckBox, constrainCheckBox);
     }
 
-    private String demungeRawValueName(String valueName) {
+    private String prettifyValueName(String valueName) {
         // Get rid of underscores
         return valueName.replace('_', ' ');
 
