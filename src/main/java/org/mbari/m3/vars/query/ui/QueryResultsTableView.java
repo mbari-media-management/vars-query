@@ -6,7 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.Initializer;
+import org.mbari.m3.vars.query.UIToolBox;
+import org.mbari.m3.vars.query.messages.ShowAlert;
+import org.mbari.m3.vars.query.messages.ShowExceptionAlert;
 import org.mbari.m3.vars.query.ui.javafx.stage.ImageStage;
 import org.mbari.net.URLUtilities;
 import org.mbari.util.Tuple2;
@@ -22,10 +26,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,6 +42,10 @@ import java.util.stream.Stream;
 public class QueryResultsTableView {
 
     // http://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
+
+    // We don't want to block teh JFX thread. So use this executor to open videos
+    // with.
+    private static Executor executor = Executors.newFixedThreadPool(2);
 
 
     public static TableView<String[]> newTableView(QueryResults queryResults) {
@@ -170,40 +177,47 @@ public class QueryResultsTableView {
 
         if (!urls.isEmpty()) {
             // --- Open video
-            try {
-                URL mediaUrl = new URI(urls.get(0)).toURL();
-                int port = Initializer.CONFIG.getInt("sharktopoda.port");
-                SharktopodaVideoIO videoIO = new SharktopodaVideoIO(UUID.randomUUID(), "localhost", port);
-                videoIO.send(new OpenCmd(mediaUrl));
+            Runnable runnable = () -> {
+                try {
+                    URL mediaUrl = new URI(urls.get(0)).toURL();
+                    int port = Initializer.CONFIG.getInt("sharktopoda.port");
+                    SharktopodaVideoIO videoIO = new SharktopodaVideoIO(UUID.randomUUID(), "localhost", port);
+                    videoIO.send(new OpenCmd(mediaUrl));
 
-                // --- Jump to correct index in video
-                String timeColName = Initializer.CONFIG.getString("vars.query.elapsed.time.column");
-                List<String> columnNames = tableView.getColumns().stream()
-                        .map(TableColumn::getId)
-                        .collect(Collectors.toList());
+                    // --- Jump to correct index in video
+                    String timeColName = Initializer.CONFIG.getString("vars.query.elapsed.time.column");
+                    List<String> columnNames = tableView.getColumns().stream()
+                            .map(TableColumn::getId)
+                            .collect(Collectors.toList());
 
-                Optional<String> timeColumn = columnNames.stream()
-                        .filter(s -> s.equalsIgnoreCase(timeColName))
-                        .findFirst();
-                timeColumn.ifPresent(s -> {
-                    int idx = columnNames.indexOf(s);
+                    Optional<String> timeColumn = columnNames.stream()
+                            .filter(s -> s.equalsIgnoreCase(timeColName))
+                            .findFirst();
+                    timeColumn.ifPresent(s -> {
+                        int idx = columnNames.indexOf(s);
 
-                    try {
-                        String elapsedTime = rowItem[idx];
-                        long millis = Long.parseLong(elapsedTime);
-                        Duration duration = Duration.ofMillis(millis);
-                        videoIO.send(new SeekElapsedTimeCmd(duration));
-                    }
-                    catch (Exception e) {
-                        log.warn("Failed to jump to video index", e);
-                    }
+                        try {
+                            String elapsedTime = rowItem[idx];
+                            long millis = Long.parseLong(elapsedTime);
+                            Duration duration = Duration.ofMillis(millis);
+                            videoIO.send(new SeekElapsedTimeCmd(duration));
+                        } catch (Exception e) {
+                            log.warn("Failed to jump to video index", e);
+                        }
 
-                });
-            }
-            catch (Exception e) {
-                log.warn("Failed to open video ", e);
-            }
-
+                    });
+                } catch (Exception e) {
+                    log.warn("Failed to open video ", e);
+                    EventBus eventBus = Initializer.getToolBox().getEventBus();
+                    ResourceBundle i18n = Initializer.getToolBox().getI18nBundle();
+                    ShowAlert msg = new ShowExceptionAlert(i18n.getString("queryresults.view.video.fail.title"),
+                            i18n.getString("queryresults.view.video.fail.header"),
+                            i18n.getString("queryresults.view.video.fail.content"),
+                            e);
+                    eventBus.send(msg);
+                }
+            };
+            executor.execute(runnable);
 
         }
     }

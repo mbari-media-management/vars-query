@@ -32,7 +32,7 @@ public class InConstraint implements IConstraint<List<String>> {
 
     public int bind(PreparedStatement statement, int idx) throws SQLException{
         for (String v: values) {
-            statement.setString(idx, "%" + v + "%");
+            statement.setString(idx, v);
             idx++;
         }
         return idx;

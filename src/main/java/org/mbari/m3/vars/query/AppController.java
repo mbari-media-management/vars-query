@@ -1,10 +1,12 @@
 package org.mbari.m3.vars.query;
 
+import io.reactivex.Observable;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.mbari.m3.vars.query.messages.NewResolvedConceptSelectionMsg;
+import org.mbari.m3.vars.query.messages.*;
 import org.mbari.m3.vars.query.controllers.QueryResultsUIController;
+import org.mbari.m3.vars.query.ui.Alerts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.util.VARSException;
@@ -14,9 +16,6 @@ import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResultsCustomization;
-import org.mbari.m3.vars.query.messages.ExecuteSearchMsg;
-import org.mbari.m3.vars.query.messages.NewConceptSelectionMsg;
-import org.mbari.m3.vars.query.messages.NewQueryResultsMsg;
 import org.mbari.m3.vars.query.ui.db.ConceptConstraint;
 import org.mbari.m3.vars.query.ui.db.IConstraint;
 import org.mbari.m3.vars.query.ui.db.PreparedStatementGenerator;
@@ -42,23 +41,27 @@ public class AppController {
     private final EventBus eventBus;
     private final Executor executor;
     private final QueryResultsUIController uiController;
+    private final Alerts alerts;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public AppController(AsyncQueryService queryService, EventBus eventBus, Executor executor) {
-        this.queryService = queryService;
-        this.eventBus = eventBus;
-        this.executor = executor;
+    public AppController(UIToolBox toolBox) {
+        this.queryService = toolBox.getQueryService();
+        this.eventBus = toolBox.getEventBus();
+        this.executor = toolBox.getExecutor();
+        this.alerts = new Alerts(toolBox);
         this.uiController = new QueryResultsUIController(eventBus);
 
+        Observable<Object> observable = eventBus.toObserverable();
 
-        eventBus.toObserverable()
-                .ofType(NewConceptSelectionMsg.class)
+        observable.ofType(NewConceptSelectionMsg.class)
                 .subscribe(msg -> addConceptSelection(msg.getConceptSelection()));
 
-        eventBus.toObserverable()
-                .ofType(ExecuteSearchMsg.class)
+        observable.ofType(ExecuteSearchMsg.class)
                 .subscribe(this::executeSearch);
+
+        observable.ofType(ShowAlert.class)
+                .subscribe(alerts::showAlert);
 
     }
 

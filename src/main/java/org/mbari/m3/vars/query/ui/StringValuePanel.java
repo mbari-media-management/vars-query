@@ -1,6 +1,7 @@
 package org.mbari.m3.vars.query.ui;
 
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -57,7 +58,7 @@ public class StringValuePanel extends AbstractValuePanel {
                 else if (newVal.size() == 0) {
                     visibleRows = 3;
                 }
-                listView.prefHeightProperty().set(getTextField().getHeight() * visibleRows);
+                listView.setPrefHeight(getTextField().getHeight() * visibleRows);
             });
             HBox.setHgrow(listView, Priority.ALWAYS);
         }
@@ -100,7 +101,10 @@ public class StringValuePanel extends AbstractValuePanel {
     public List<String> getSelectedValues() {
         List<String> list = new ArrayList<>();
         if (getToggleButton().isSelected()) {
-             list.addAll(getListView().getItems().sorted());
+            List<String> items = getListView().getSelectionModel()
+                    .getSelectedItems()
+                    .sorted();
+            list.addAll(items);
         }
         else {
             String text = getTextField().getText();

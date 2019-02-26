@@ -7,6 +7,7 @@ import com.guigarage.sdk.container.WorkbenchView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
+import org.mbari.m3.vars.query.messages.*;
 import org.mbari.m3.vars.query.old.GlobalStateLookup;
 import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.model.beans.QueryParams;
@@ -20,12 +21,6 @@ import org.mbari.m3.vars.query.shared.rx.messages.AbstractExceptionMsg;
 import org.mbari.m3.vars.query.shared.rx.messages.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.mbari.m3.vars.query.messages.ShowAdvancedSearchWorkbenchMsg;
-import org.mbari.m3.vars.query.messages.ShowBasicSearchWorkbenchMsg;
-import org.mbari.m3.vars.query.messages.ShowConceptConstraintsWorkbenchMsg;
-import org.mbari.m3.vars.query.messages.ShowCustomizeResultsWorkbenchMsg;
-import org.mbari.m3.vars.query.messages.ExecuteSearchMsg;
-import org.mbari.m3.vars.query.messages.NewResolvedConceptSelectionMsg;
 import org.mbari.m3.vars.query.ui.sdkfx.AdvancedSearchWorkbench;
 import org.mbari.m3.vars.query.ui.sdkfx.BasicSearchWorkbench;
 import org.mbari.m3.vars.query.ui.sdkfx.ConceptConstraintsWorkbench;
@@ -34,6 +29,7 @@ import org.mbari.m3.vars.query.ui.sdkfx.CustomizeResultsWorkbench;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
@@ -46,9 +42,9 @@ public class App {
      * 378720000 = 1982-01-01
      */
     public static final Date MIN_RECORDED_DATE = new Date(378720000L * 1000L);
-    private EventBus eventBus = new EventBus();
     private static Logger log;
     private final UIToolBox toolBox;
+    private final EventBus eventBus;
     private Application application;
     private final AppController appController;
     private final SaveResultsController saveResultsController;
@@ -59,7 +55,8 @@ public class App {
 
     public App(UIToolBox toolBox) {
         Preconditions.checkArgument(toolBox != null);
-        this.appController = new AppController(toolBox.getQueryService(), eventBus, toolBox.getExecutor());
+        this.eventBus = toolBox.getEventBus();
+        this.appController = new AppController(toolBox);
         this.saveResultsController = new SaveResultsController(eventBus, toolBox.getExecutor());
         this.toolBox = toolBox;
 
@@ -91,19 +88,23 @@ public class App {
     protected Application getApplication() {
         if (application == null) {
             application = new Application();
+            ResourceBundle i18n = toolBox.getI18nBundle();
             application.addStylesheet(getClass().getResource("/org/mbari/m3/vars/query/queryfx/queryfx.css").toExternalForm());
 
-            application.setTitle("VARS Query");
-            application.addToolbarItem(new Action(AppIcons.HOME, "Home", () -> eventBus.send(new ShowBasicSearchWorkbenchMsg())));
+            application.setTitle(i18n.getString("app.title"));
+            String home = i18n.getString("app.toolbar.home");
+            application.addToolbarItem(new Action(AppIcons.HOME, home, () -> eventBus.send(new ShowBasicSearchWorkbenchMsg())));
 
             application.setBaseColor(new Color(0x1B / 255D, 0x4D / 255D, 0x93 / 255D, 1));
-            application.addMenuEntry(new Action(AppIcons.HOME, "Home",
+            application.addMenuEntry(new Action(AppIcons.HOME, home,
                     () -> eventBus.send(new ShowBasicSearchWorkbenchMsg())));
 
-            application.addMenuEntry(new Action(AppIcons.SEARCH_PLUS, "Refine Search",
+            application.addMenuEntry(new Action(AppIcons.SEARCH_PLUS,
+                    i18n.getString("app.menu.refine"),
                     () -> eventBus.send(new ShowAdvancedSearchWorkbenchMsg())));
 
-            application.addMenuEntry(new Action(AppIcons.GEARS, "Customize Results",
+            application.addMenuEntry(new Action(AppIcons.GEARS,
+                    i18n.getString("app.menu.customize"),
                     () -> eventBus.send(new ShowCustomizeResultsWorkbenchMsg())));
 
             showBasicSearch(application);
@@ -119,12 +120,11 @@ public class App {
         final QueryParams queryParams = getAdvancedSearchWorkbench().getQueryParams();
         if (conceptConstraints.isEmpty() && queryParams.getQueryConstraints().isEmpty()) {
             // Show warning dialog
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Whoops!");
-            alert.setHeaderText("Unable to complete search");
-            alert.setContentText("You did not specify any search constraints, so you are asking for the entire database." +
-                    " That's not allowed");
-            alert.showAndWait();
+            ResourceBundle i18n = toolBox.getI18nBundle();
+            ShowAlert msg = new ShowInfoAlert(i18n.getString("search.alert.noconstraints.title"),
+                    i18n.getString("search.alert.noconstraints.header"),
+                    i18n.getString("search.alert.noconstraints.content"));
+            eventBus.send(msg);
         }
         else {
             final ResultsCustomization resultsCustomization = getCustomizeResultsWorkbench().getResultsCustomization();

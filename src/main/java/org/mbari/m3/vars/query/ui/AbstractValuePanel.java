@@ -22,7 +22,7 @@ public abstract class AbstractValuePanel extends HBox {
     private String title;
 
     public AbstractValuePanel(String valueName) {
-        this.valueName = prettifyValueName(valueName);
+        this.valueName = valueName;
         constrainCheckBox = new CheckBox();
         constrainCheckBox.setTooltip(new Tooltip("constrain"));
         returnCheckBox = new CheckBox();
@@ -30,12 +30,7 @@ public abstract class AbstractValuePanel extends HBox {
         getChildren().addAll(returnCheckBox, constrainCheckBox);
     }
 
-    private String prettifyValueName(String valueName) {
-        // Get rid of underscores
-        return valueName.replace('_', ' ');
 
-        // TODO may need to check for CamelCase too.
-    }
 
     public boolean isReturned() {
         return returnCheckBox.isSelected();
@@ -52,7 +47,10 @@ public abstract class AbstractValuePanel extends HBox {
     public String getTitle() {
         if (title == null) {
             title = valueName;
-            if (!valueName.toUpperCase().equals(valueName)) {
+            if (valueName.contains("_")) {  // snake_case valueName
+                title = valueName.replace('_', ' ');
+            }
+            else if (!valueName.toUpperCase().equals(valueName)) {  // CamerlCase valueName
                 Matcher matcher = PATTERN.matcher(valueName);
                 title = matcher.replaceAll(" $0");
             }
