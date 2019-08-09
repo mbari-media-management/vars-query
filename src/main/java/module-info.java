@@ -1,8 +1,4 @@
-/**
- * @author Brian Schlining
- * @since 2019-08-09T15:45:00
- */
-open module vars.query.main {
+open module org.mbari.vars.query {
     requires sdkfx;
     requires javafx.controls;
     requires javafx.fxml;
@@ -12,4 +8,5 @@ open module vars.query.main {
     requires java.scripting;
     requires jfxtras.controls;
 //    requires java.awt;
+    exports java.lang to com.google.guice;
 }
