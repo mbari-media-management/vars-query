@@ -15,7 +15,8 @@ package org.mbari.m3.vars.query.gson;
 
 import com.google.gson.*;
 
-import javax.xml.bind.DatatypeConverter;
+import org.mbari.m3.vars.query.util.HexUtils;
+
 import java.lang.reflect.Type;
 
 /**
@@ -30,7 +31,7 @@ public class ByteArrayConverter implements JsonSerializer<byte[]>, JsonDeseriali
      * @return
      */
     public static byte[] decode(String s) {
-        return DatatypeConverter.parseHexBinary(s);
+        return HexUtils.parseHexBinary(s);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ByteArrayConverter implements JsonSerializer<byte[]>, JsonDeseriali
      * @return
      */
     public static String encode(byte[] bs) {
-        return DatatypeConverter.printHexBinary(bs);
+        return HexUtils.printHexBinary(bs);
     }
 
     @Override
