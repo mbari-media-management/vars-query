@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import jfxtras.scene.control.LocalDateTimeTextField;
-import org.mbari.m3.vars.query.util.StateLookup;
+import org.mbari.m3.vars.query.Initializer;
 import org.mbari.m3.vars.query.ui.db.DateBoundsConstraint;
 import org.mbari.m3.vars.query.ui.db.IConstraint;
 
@@ -63,7 +63,11 @@ public class DateValuePanel extends AbstractValuePanel {
 
     private LocalDateTimeTextField getStartControl() {
         if (startControl == null) {
-            LocalDateTime dt = StateLookup.getAnnotationStartDate().toLocalDateTime().truncatedTo(ChronoUnit.MINUTES);
+            LocalDateTime dt =Initializer.getToolBox()
+                    .getAppConfig()
+                    .getVarsAnnotationStartDate()
+                    .toLocalDateTime()
+                    .truncatedTo(ChronoUnit.MINUTES);
             startControl = new LocalDateTimeTextField(dt);
             startControl.parseErrorCallbackProperty().set( p -> {
                 startControl.setLocalDateTime(dt);

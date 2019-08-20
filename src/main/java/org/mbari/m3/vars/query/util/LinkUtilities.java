@@ -13,9 +13,9 @@ package org.mbari.m3.vars.query.util;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
+
 import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.model.LinkComparator;
 
@@ -57,10 +57,9 @@ public class LinkUtilities {
      * @return
      */
     public static Collection<ILink> findMatchingLinksIn(Collection<ILink> links, final ILink templateLink) {
-        return Collections2.filter(links, new Predicate<ILink>() {
-            public boolean apply(ILink input) {
-                return COMPARATOR.compare(input, templateLink) == 0;
-            }
-        });
+        return links.stream()
+                .filter(v -> COMPARATOR.compare(v, templateLink) == 0)
+                .collect(Collectors.toList());
+
     }
 }

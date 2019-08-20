@@ -15,7 +15,7 @@ import org.mbari.m3.vars.query.messages.NewQueryResultsMsg;
 import org.mbari.m3.vars.query.messages.SaveAsTextMsg;
 import org.mbari.m3.vars.query.messages.SaveImagesMsg;
 import org.mbari.m3.vars.query.ui.QueryResultsTableView;
-import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.messages.SaveAsKMLMsg;
 

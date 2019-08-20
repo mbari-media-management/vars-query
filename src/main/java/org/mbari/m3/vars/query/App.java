@@ -1,15 +1,11 @@
 package org.mbari.m3.vars.query;
 
-import com.google.common.base.Preconditions;
 import com.guigarage.sdk.Application;
 import com.guigarage.sdk.action.Action;
 import com.guigarage.sdk.container.WorkbenchView;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 import org.mbari.m3.vars.query.messages.*;
-import org.mbari.m3.vars.query.old.GlobalStateLookup;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.model.beans.QueryParams;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResultsCustomization;
@@ -54,7 +50,9 @@ public class App {
     private AdvancedSearchWorkbench advancedSearchWorkbench;
 
     public App(UIToolBox toolBox) {
-        Preconditions.checkArgument(toolBox != null);
+        if (toolBox == null) {
+            throw new IllegalArgumentException("The `toolBox` argument can not be null");
+        }
         this.eventBus = toolBox.getEventBus();
         this.appController = new AppController(toolBox);
         this.saveResultsController = new SaveResultsController(eventBus, toolBox.getExecutor());
@@ -168,7 +166,7 @@ public class App {
     protected ConceptConstraintsWorkbench getConceptConstraintsWorkbench(Application app) {
         if (conceptConstraintsWorkbench == null) {
             conceptConstraintsWorkbench = new ConceptConstraintsWorkbench(
-                    toolBox.getQueryService(), toolBox.getExecutor(), eventBus);
+                    toolBox.getServices().getAsyncQueryService(), toolBox.getExecutor(), eventBus);
 //            conceptConstraintsWorkbench.getFormLayout().addActions(new Action(AppIcons.TRASH, "Cancel", () -> showBasicSearch(app)),
 //                    new Action(AppIcons.PLUS, "Apply", () -> {
 //                        ConceptSelection conceptSelection = conceptConstraintsWorkbench.getConceptSelection();
@@ -188,7 +186,7 @@ public class App {
 
     protected AdvancedSearchWorkbench getAdvancedSearchWorkbench() {
         if (advancedSearchWorkbench == null) {
-            advancedSearchWorkbench = new AdvancedSearchWorkbench(toolBox.getQueryService(), eventBus);
+            advancedSearchWorkbench = new AdvancedSearchWorkbench(toolBox.getServices().getAsyncQueryService(), eventBus);
         }
         return advancedSearchWorkbench;
     }
@@ -218,7 +216,7 @@ public class App {
     public static void main( String[] args ) {
         System.setProperty("user.timezone", "UTC");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-        GlobalStateLookup.getSettingsDirectory(); // Not used
+        Initializer.getSettingsDirectory(); // Not used
 
         /*
           Log uncaught Exceptions
@@ -250,7 +248,7 @@ public class App {
 
 
         App app = new App(toolBox);
-        StateLookup.setApp(app);
+        toolBox.getData().setApp(app);
         ImageFX.setIsJavaFXRunning(true);
         app.getApplication().setPrefSize(800, 900);
         app.getApplication().setStopCallback(() -> System.exit(0));

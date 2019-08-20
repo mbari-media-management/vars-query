@@ -9,8 +9,7 @@ import org.mbari.m3.vars.query.gson.TimecodeConverter;
 import org.mbari.m3.vars.query.services.RetrofitServiceFactory;
 import org.mbari.vcr4j.time.Timecode;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
@@ -21,10 +20,9 @@ import java.util.concurrent.Executor;
 public class KBWebServiceFactory extends RetrofitServiceFactory {
 
 
-    @Inject
-    public KBWebServiceFactory(@Named("CONCEPT_ENDPOINT") String endpoint,
-                               @Named("CONCEPT_TIMEOUT") Duration timeout,
-                               @Named("CONCEPT_EXECUTOR")Executor executor) {
+    public KBWebServiceFactory(String endpoint,
+                               Duration timeout,
+                               Executor executor) {
         super(endpoint, timeout, executor);
     }
 

@@ -8,8 +8,7 @@ import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 import org.mbari.m3.vars.query.services.varskbserver.v1.HierarchyDecorator;
 
-import javax.inject.Inject;
-import javax.swing.text.html.Option;
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,8 +26,6 @@ public class M3AsyncQueryServiceImpl implements AsyncQueryService {
     private final ConceptService conceptService;
     private final HierarchyDecorator hierarchyDecorator;
 
-
-    @Inject
     public M3AsyncQueryServiceImpl(AnnotationService annotationService, ConceptService conceptService) {
         this.annotationService = annotationService;
         this.conceptService = conceptService;

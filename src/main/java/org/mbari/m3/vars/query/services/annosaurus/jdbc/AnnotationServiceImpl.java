@@ -25,15 +25,16 @@ public class AnnotationServiceImpl implements AnnotationService {
     private final String databaseIdentifier;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public AnnotationServiceImpl() {
-        Config config = ConfigFactory.load();
-        String url = config.getString("annosaurus.jdbc.url");
+
+    public AnnotationServiceImpl(String url,
+                                 String user,
+                                 String password,
+                                 String driver) {
         databaseIdentifier = url;
-        String user = config.getString("annosaurus.jdbc.user");
-        String password = config.getString("annosaurus.jdbc.password");
-        String driver = config.getString("annosaurus.jdbc.driver");
         queryable = new QueryableImpl(url, user, password, driver);
     }
+
+
 
     @Override
     public List<String> findAllNames() {

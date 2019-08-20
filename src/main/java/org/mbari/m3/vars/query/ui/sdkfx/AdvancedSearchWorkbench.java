@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ScrollPane;
+import org.mbari.m3.vars.query.Initializer;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.ui.AbstractValuePanel;
 import org.mbari.m3.vars.query.ui.ValuePanelFactory;
@@ -16,7 +17,6 @@ import org.mbari.m3.vars.query.ui.db.IConstraint;
 import org.mbari.m3.vars.query.shared.rx.messages.FatalExceptionMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.model.beans.QueryParams;
 
@@ -93,7 +93,7 @@ public class AdvancedSearchWorkbench extends WorkbenchView {
 
     private void groupPanels() {
 
-        Config config = StateLookup.getConfig();
+        Config config = Initializer.getToolBox().getConfig();
         ConfigObject groups = config.getObject("vars.query.column.groups");
         Config groupsConfig = groups.toConfig();
 
@@ -127,7 +127,7 @@ public class AdvancedSearchWorkbench extends WorkbenchView {
     }
 
     private void configureDefaultReturns() {
-        Config config = StateLookup.getConfig();
+        Config config = Initializer.getToolBox().getConfig();
         List<String> defaultReturnNames = config.getStringList("vars.query.column.default.returns")
                 .stream()
                 .map(String::toUpperCase)

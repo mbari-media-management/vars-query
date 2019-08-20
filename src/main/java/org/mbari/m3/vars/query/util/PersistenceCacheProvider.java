@@ -5,8 +5,8 @@
 
 package org.mbari.m3.vars.query.util;
 
-import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseObject;
-import org.mbari.m3.vars.query.old.services.annotation.AnnotationObject;
+import org.mbari.m3.vars.query.model.KnowledgebaseObject;
+import org.mbari.m3.vars.query.model.AnnotationObject;
 
 /**
  *

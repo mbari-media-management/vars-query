@@ -1,15 +1,14 @@
 package org.mbari.m3.vars.query.ui.sdkfx;
 
-import com.google.common.base.Preconditions;
 import com.guigarage.sdk.util.Media;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
+import org.mbari.m3.vars.query.Constants;
+import org.mbari.m3.vars.query.model.Concept;
 import org.mbari.m3.vars.query.util.LinkUtilities;
-import org.mbari.m3.vars.query.old.services.knowledgebase.Concept;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 
 import java.util.stream.Collectors;
@@ -31,7 +30,9 @@ public class ConceptMedia implements Media {
     private ObjectProperty<Image> image = new SimpleObjectProperty<>();
 
     public ConceptMedia(ResolvedConceptSelection conceptSelection) {
-        Preconditions.checkArgument(conceptSelection != null, "Concept arg can not be null");
+        if (conceptSelection == null) {
+            throw new IllegalArgumentException("Concept arg can not be null");
+        }
         this.conceptSelection = conceptSelection;
         init();
     }
@@ -40,7 +41,7 @@ public class ConceptMedia implements Media {
 
         String titleString = conceptSelection.getConceptName();
         if (!LinkUtilities.formatAsString(conceptSelection.getLink())
-                .equals(LinkUtilities.formatAsString(StateLookup.WILD_CARD_LINK))) {
+                .equals(LinkUtilities.formatAsString(Constants.WILD_CARD_LINK))) {
             titleString = titleString + " | " + LinkUtilities.formatAsString(conceptSelection.getLink());
         }
 

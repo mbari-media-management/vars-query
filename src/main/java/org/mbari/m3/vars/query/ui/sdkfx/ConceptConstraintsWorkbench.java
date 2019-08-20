@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import org.mbari.m3.vars.query.Constants;
 import org.mbari.m3.vars.query.model.ILink;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.messages.ShowBasicSearchWorkbenchMsg;
@@ -22,12 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.model.LinkBean;
 import org.mbari.m3.vars.query.util.LinkUtilities;
 import org.mbari.m3.vars.query.messages.NewConceptSelectionMsg;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.ui.shared.AutoCompleteComboBoxListener;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -65,12 +64,11 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Inject
     public ConceptConstraintsWorkbench(AsyncQueryService queryService, Executor executor, EventBus eventBus) {
         this.queryService = queryService;
         this.executor = executor;
         this.eventBus = eventBus;
-        linksForConceptSelection.add(StateLookup.WILD_CARD_LINK);
+        linksForConceptSelection.add(Constants.WILD_CARD_LINK);
 
         // --- Do Layout
 
@@ -138,7 +136,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
                 else {
                     eventBus.send(new FatalExceptionMsg("Failed to look up concepts from database", ex));
                     List<String> ls = new ArrayList<>();
-                    ls.add(StateLookup.WILD_CARD);
+                    ls.add(Constants.WILD_CARD);
                     return ls;
                 }
             }).thenAccept(names -> {
@@ -148,7 +146,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
                     ObservableList<String> obs = FXCollections.observableArrayList(names);
 
                     // Need to add wild card (i.e. Formerly NIL)
-                    obs.add(0, StateLookup.WILD_CARD);
+                    obs.add(0, Constants.WILD_CARD);
                     conceptComboBox.setItems(obs);
                     conceptComboBox.setPromptText("Enter search term (* is wildcard)");
                     conceptComboBox.getSelectionModel().select(0);
@@ -240,7 +238,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
 
                     runOnFXThread(() -> {
                         ObservableList<String> items = cb.getItems();
-                        items.add(StateLookup.WILD_CARD);
+                        items.add(Constants.WILD_CARD);
                         if (list.isEmpty()) {
                             items.add(newVal.getToConcept());
                         }
@@ -293,7 +291,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
             runningFuture.cancel(true);
         }
 
-        if (selection.getConceptName().equals(StateLookup.WILD_CARD)) {
+        if (selection.getConceptName().equals(Constants.WILD_CARD)) {
             runningFuture = queryService.findAllLinks();
         }
         else {
@@ -307,7 +305,7 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
 
         runningFuture.thenAccept(links -> {
             runOnFXThread(() -> {
-                linksForConceptSelection.add(StateLookup.WILD_CARD_LINK);
+                linksForConceptSelection.add(Constants.WILD_CARD_LINK);
                 linksForConceptSelection.addAll(links);
                 EditorFormRow<ComboBox<ILink>> row = getAssociationSelectionRow();
                 ComboBox<ILink> editor = row.getEditor();
@@ -330,9 +328,9 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
         List<String> toConceptP = toConceptRow.getEditor().getItems();
         String linkValueP = linkValueRow.getEditor().getText();
 
-        String linkName = linkNameP == null || linkNameP.isEmpty() ? StateLookup.WILD_CARD : linkNameP;
-        String toConcept = toConceptP.isEmpty() ? StateLookup.WILD_CARD : toConceptP.get(0);
-        String linkValue = linkValueP == null || linkValueP.isEmpty() ? StateLookup.WILD_CARD : linkValueP;
+        String linkName = linkNameP == null || linkNameP.isEmpty() ? Constants.WILD_CARD : linkNameP;
+        String toConcept = toConceptP.isEmpty() ? Constants.WILD_CARD : toConceptP.get(0);
+        String linkValue = linkValueP == null || linkValueP.isEmpty() ? Constants.WILD_CARD : linkValueP;
 
 
         ILink link = new LinkBean(linkName, toConcept, linkValue);

@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query.ui.db;
 
-import org.mbari.m3.vars.query.util.StateLookup;
+import org.mbari.m3.vars.query.Constants;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,7 +37,7 @@ public class DateBoundsConstraint implements IConstraint<Date> {
 
     @Override
     public String toSQLClause() {
-        DateFormat df = StateLookup.getUTCDateFormat();
+        DateFormat df = Constants.newUTCDateFormat();
         return columnName + " BETWEEN '" + df.format(minDate) + "' AND '" +
                 df.format(maxDate) + "'";
     }

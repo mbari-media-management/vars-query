@@ -14,13 +14,12 @@
 
 package org.mbari.m3.vars.query.util;
 
-import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.mbari.m3.vars.query.old.services.annotation.AnnotationObject;
-import org.mbari.m3.vars.query.old.services.knowledgebase.KnowledgebaseObject;
+import org.mbari.m3.vars.query.model.AnnotationObject;
+import org.mbari.m3.vars.query.model.KnowledgebaseObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,6 @@ public class PersistenceCache {
      *
      * @param provider
      */
-    @Inject
     public PersistenceCache(PersistenceCacheProvider provider) {
         this.provider = provider;
     }

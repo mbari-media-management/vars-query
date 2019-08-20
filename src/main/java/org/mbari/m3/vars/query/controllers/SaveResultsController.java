@@ -1,16 +1,16 @@
 package org.mbari.m3.vars.query.controllers;
 
-import org.mbari.m3.vars.query.old.services.query.results.QueryResultsUtilities;
+import org.mbari.m3.vars.query.results.QueryResultsUtilities;
 import org.mbari.m3.vars.query.messages.SaveAsJSONMsg;
 import org.mbari.util.Tuple2;
-import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.shared.rx.messages.NonFatalExceptionMsg;
 import org.mbari.m3.vars.query.messages.SaveAsKMLMsg;
 import org.mbari.m3.vars.query.messages.SaveAsTextMsg;
 import org.mbari.m3.vars.query.messages.SaveImagesMsg;
-import org.mbari.m3.vars.query.old.services.query.results.SaveImagesFn;
-import org.mbari.m3.vars.query.old.services.query.results.SaveResultsAsKMLFn;
+import org.mbari.m3.vars.query.results.SaveImagesFn;
+import org.mbari.m3.vars.query.results.SaveResultsAsKMLFn;
 
 import java.io.BufferedWriter;
 import java.io.File;

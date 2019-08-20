@@ -16,25 +16,31 @@ public class UIToolBox {
     private final EventBus eventBus;
     private final ResourceBundle i18nBundle;
     private final Config config;
-    private final AsyncQueryService queryService;
+    private final AppConfig appConfig;
     private final Executor executor;
+    private final Services services;
+    private final Data data;
 
     /** URL to the stylesheet used for the apps */
     private final Collection<String> stylesheets;
 
 
-    public UIToolBox(AsyncQueryService queryService,
+    public UIToolBox(Services services,
+                     Data data,
                      EventBus eventBus,
                      ResourceBundle i18nBundle,
                      Config config,
                      Collection<String> stylesheets,
                      Executor executor) {
-        this.queryService = queryService;
+        this.services = services;
+        this.data = data;
         this.eventBus = eventBus;
         this.i18nBundle = i18nBundle;
         this.config = config;
         this.stylesheets = Collections.unmodifiableCollection(stylesheets);
         this.executor = executor;
+
+        appConfig = new AppConfig(config);
     }
 
     public EventBus getEventBus() {
@@ -53,11 +59,19 @@ public class UIToolBox {
         return stylesheets;
     }
 
-    public AsyncQueryService getQueryService() {
-        return queryService;
-    }
-
     public Executor getExecutor() {
         return executor;
+    }
+
+    public Services getServices() {
+        return services;
+    }
+
+    public AppConfig getAppConfig() {
+        return appConfig;
+    }
+
+    public Data getData() {
+        return data;
     }
 }

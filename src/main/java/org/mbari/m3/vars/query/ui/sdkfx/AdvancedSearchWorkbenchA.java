@@ -10,11 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import org.mbari.m3.vars.query.Initializer;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.ui.AbstractValuePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.ui.ValuePanelFactory;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class AdvancedSearchWorkbenchA extends WorkbenchView {
     private List<Node> groupPanels() {
         List<Node> panels = new ArrayList<>();
 
-        Config config = StateLookup.getConfig();
+        Config config = Initializer.getToolBox().getConfig();
         ConfigObject groups = config.getObject("vars.query.column.groups");
         Config groupsConfig = groups.toConfig();
 
@@ -120,7 +120,7 @@ public class AdvancedSearchWorkbenchA extends WorkbenchView {
     }
 
     private void configureDefaultReturns() {
-        Config config = StateLookup.getConfig();
+        Config config = Initializer.getToolBox().getConfig();
         List<String> defaultReturnNames = config.getStringList("vars.query.column.default.returns");
         for (AbstractValuePanel valuePanel : valuePanels) {
             if (defaultReturnNames.contains(valuePanel.getValueName())) {

@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.ui.db.results;
 
 import org.mbari.m3.vars.query.model.Concept;
-import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

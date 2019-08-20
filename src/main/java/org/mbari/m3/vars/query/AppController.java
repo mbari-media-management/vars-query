@@ -10,9 +10,9 @@ import org.mbari.m3.vars.query.ui.Alerts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mbari.m3.vars.query.util.VARSException;
-import org.mbari.m3.vars.query.old.services.query.results.AssociationColumnRemappingDecorator;
-import org.mbari.m3.vars.query.old.services.query.results.CoalescingDecorator;
-import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.results.AssociationColumnRemappingDecorator;
+import org.mbari.m3.vars.query.results.CoalescingDecorator;
+import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.services.AsyncQueryService;
 import org.mbari.m3.vars.query.model.beans.ConceptSelection;
 import org.mbari.m3.vars.query.model.beans.ResultsCustomization;
@@ -46,7 +46,7 @@ public class AppController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     public AppController(UIToolBox toolBox) {
-        this.queryService = toolBox.getQueryService();
+        this.queryService = toolBox.getServices().getAsyncQueryService();
         this.eventBus = toolBox.getEventBus();
         this.executor = toolBox.getExecutor();
         this.alerts = new Alerts(toolBox);

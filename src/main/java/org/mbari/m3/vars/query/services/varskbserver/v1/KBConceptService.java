@@ -8,7 +8,6 @@ import org.mbari.m3.vars.query.model.ConceptDetails;
 import org.mbari.m3.vars.query.services.ConceptService;
 import org.mbari.m3.vars.query.services.RetrofitWebService;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -27,7 +26,6 @@ public class KBConceptService implements ConceptService, RetrofitWebService {
     private final KBWebService service;
 
 
-    @Inject
     public KBConceptService(KBWebServiceFactory serviceFactory) {
         service = serviceFactory.create(KBWebService.class);
     }

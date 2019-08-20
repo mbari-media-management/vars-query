@@ -8,13 +8,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.Initializer;
-import org.mbari.m3.vars.query.UIToolBox;
 import org.mbari.m3.vars.query.messages.ShowAlert;
 import org.mbari.m3.vars.query.messages.ShowExceptionAlert;
 import org.mbari.m3.vars.query.ui.javafx.stage.ImageStage;
 import org.mbari.net.URLUtilities;
 import org.mbari.util.Tuple2;
-import org.mbari.m3.vars.query.old.services.query.results.QueryResults;
+import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.ui.javafx.application.ImageFX;
 import org.mbari.vcr4j.commands.SeekElapsedTimeCmd;
 import org.mbari.vcr4j.sharktopoda.SharktopodaVideoIO;
@@ -32,7 +31,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**

@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.ui.db;
 
+import org.mbari.m3.vars.query.Constants;
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.m3.vars.query.util.StateLookup;
 import org.mbari.m3.vars.query.model.beans.ResolvedConceptSelection;
 
 import java.sql.PreparedStatement;
@@ -46,7 +46,7 @@ public class ConceptConstraint implements IConstraint<ResolvedConceptSelection> 
 
     private boolean isWildCard(String wc) {
         String u = wc.toUpperCase();
-        return u.equals(StateLookup.WILD_CARD) || u.equals(ILink.VALUE_NIL);
+        return u.equals(Constants.WILD_CARD) || u.equals(ILink.VALUE_NIL);
     }
 
     @Override
