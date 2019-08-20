@@ -23,7 +23,7 @@ dependencies {
   implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
   implementation 'com.google.code.gson:gson:2.8.5'
   implementation 'com.google.guava:guava:28.0-jre'
-  implementation 'com.guigarage:sdkfx:0.2.2'
+  implementation 'com.guigarage:sdkfx:0.2.3.jre11'
   implementation 'com.jfoenix:jfoenix:9.0.9'
   implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
   implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
