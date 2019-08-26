@@ -73,7 +73,14 @@ public class AppConfig {
     }
 
     public  String getAnnosaurusJdbcUrl() {
-        return  read("annosaurus.jdbc.url", config::getString, "");
+        var url = read("annosaurus.jdbc.url", config::getString, "");
+        if (url.startsWith("'")) {
+            url = url.substring(1);
+        }
+        if (url.endsWith("'")) {
+            url = url.substring(0, url.length() - 1);
+        }
+        return  url;
     }
 
     public  String getAnnosaurusJdbcUser() {

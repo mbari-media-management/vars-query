@@ -4,9 +4,9 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.mbari.m3.vars.query.model.Association;
 import org.mbari.m3.vars.query.services.AnnotationService;
-import org.mbari.sql.QueryFunction;
-import org.mbari.sql.QueryResults;
-import org.mbari.sql.QueryableImpl;
+import mbarix4j.sql.QueryFunction;
+import mbarix4j.sql.QueryResults;
+import mbarix4j.sql.QueryableImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

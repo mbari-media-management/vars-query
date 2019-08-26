@@ -11,7 +11,7 @@ open module org.mbari.vars.query {
     requires mbarix4j;
     requires rxjava;
     requires sdkfx;
-    requires slf4j.api;
+    requires org.slf4j;
     requires typesafe.config;
     requires vcr4j.core;
 }

@@ -1,7 +1,7 @@
 package org.mbari.m3.vars.query.results;
 
 import org.mbari.m3.vars.query.util.Preconditions;
-import org.mbari.util.Tuple2;
+import mbarix4j.util.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,8 +33,8 @@ public class QueryResults {
         Map.Entry<String, List<Object>> firstEntry = data.entrySet().iterator().next();
         rows = firstEntry.getValue().size();
         for (Map.Entry<String, List<Object>> entry : data.entrySet()) {
-            Preconditions.checkArgument(entry.getValue().size() == rows, "Expected column to have " +
-                    rows + " elements. Found " + entry.getValue().size());
+            Preconditions.checkArgument(entry.getValue().size() == rows,
+                    "Expected column to have " + rows + " elements. Found " + entry.getValue().size());
         }
 
         // --- Set data
@@ -44,14 +44,14 @@ public class QueryResults {
 
     public List getValues(String columnName) {
 
-        Set<String> columnNames = resultsMap.keySet().stream()
+        Set<String> columnNames = resultsMap.keySet()
+                .stream()
                 .filter(s -> s.equalsIgnoreCase(columnName))
                 .collect(Collectors.toSet());
 
         if (columnNames.isEmpty()) {
             return new ArrayList<>();
-        }
-        else {
+        } else {
             return resultsMap.get(columnNames.iterator().next());
         }
 
@@ -79,6 +79,7 @@ public class QueryResults {
 
     /**
      * Convert data to an array
+     * 
      * @return Row-orderd data where the size is String[rows][columns]
      */
     public String[][] toRowOrientedArray() {
@@ -108,15 +109,14 @@ public class QueryResults {
     /**
      * Returns a new map of the underlying data. Each data column is also a copy of
      * the original list. This is not a full deep copy; modifying a mutable object
-     * will change it everywhere. But adding to the map or modifying the contents of each
-     * list in the map will not change the values in the source QueryResults.
+     * will change it everywhere. But adding to the map or modifying the contents of
+     * each list in the map will not change the values in the source QueryResults.
      *
      * @return A semi-deep copy of the underlying data map
      */
     public Map<String, List<Object>> copyData() {
         Map<String, List<Object>> newMap = new TreeMap<>();
-        resultsMap.entrySet().stream()
-                .forEach(entry -> newMap.put(entry.getKey(), new ArrayList<>(entry.getValue())));
+        resultsMap.entrySet().stream().forEach(entry -> newMap.put(entry.getKey(), new ArrayList<>(entry.getValue())));
         return newMap;
     }
 
@@ -134,18 +134,16 @@ public class QueryResults {
         }
 
         /*
-         * To speed up access we'll pull the Lists out of QueryResults and keep
-         * them in an orderlist.
+         * To speed up access we'll pull the Lists out of QueryResults and keep them in
+         * an orderlist.
          */
         List<List> data = new ArrayList<>();
         Map<String, List<Object>> resultsMap = new TreeMap<>();
-        columnNames.stream()
-                .forEach(n -> {
-                    List list = new ArrayList();
-                    resultsMap.put(n, list);
-                    data.add(list);
-                });
-
+        columnNames.stream().forEach(n -> {
+            List list = new ArrayList();
+            resultsMap.put(n, list);
+            data.add(list);
+        });
 
         int colCount = metaData.getColumnCount();
         while (resultSet.next()) {
@@ -155,24 +153,20 @@ public class QueryResults {
                 /*
                  * ORACLE JDBC Driver requires special handling of TIMESTAMPS:
                  *
-                    ColumnTypeName: getObject Classname / MetaData Classname
-
-                                        ==> 9.2.0.3.0
-                                        DATE: java.sql.Timestamp / java.sql.Timestamp
-                                        TIMESTAMP: oracle.sql.TIMESTAMP / oracle.sql.TIMESTAMP
-
-                                        ==> 9.2.0.5.0
-                                        DATE: java.sql.Timestamp / java.sql.Timestamp
-                                        TIMESTAMP: oracle.sql.DATE / oracle.sql.TIMESTAMP
-
-                                        ==> 10.2.0.1.0
-                                        DATE: java.sql.Date / java.sql.Timestamp
-                                        TIMESTAMP: oracle.sql.TIMESTAMP / oracle.sql.TIMESTAMP
+                 * ColumnTypeName: getObject Classname / MetaData Classname
+                 * 
+                 * ==> 9.2.0.3.0 DATE: java.sql.Timestamp / java.sql.Timestamp TIMESTAMP:
+                 * oracle.sql.TIMESTAMP / oracle.sql.TIMESTAMP
+                 * 
+                 * ==> 9.2.0.5.0 DATE: java.sql.Timestamp / java.sql.Timestamp TIMESTAMP:
+                 * oracle.sql.DATE / oracle.sql.TIMESTAMP
+                 * 
+                 * ==> 10.2.0.1.0 DATE: java.sql.Date / java.sql.Timestamp TIMESTAMP:
+                 * oracle.sql.TIMESTAMP / oracle.sql.TIMESTAMP
                  */
                 if (returnTypes.get(i).equals("oracle.sql.timestamp")) {
                     d.add(resultSet.getTimestamp(i + 1));
-                }
-                else {
+                } else {
                     d.add(resultSet.getObject(i + 1));
                 }
             }
@@ -180,8 +174,6 @@ public class QueryResults {
 
         return new QueryResults(resultsMap);
 
-
     }
-
 
 }

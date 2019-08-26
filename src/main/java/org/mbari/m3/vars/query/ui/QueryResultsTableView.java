@@ -11,8 +11,8 @@ import org.mbari.m3.vars.query.Initializer;
 import org.mbari.m3.vars.query.messages.ShowAlert;
 import org.mbari.m3.vars.query.messages.ShowExceptionAlert;
 import org.mbari.m3.vars.query.ui.javafx.stage.ImageStage;
-import org.mbari.net.URLUtilities;
-import org.mbari.util.Tuple2;
+import mbarix4j.net.URLUtilities;
+import mbarix4j.util.Tuple2;
 import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.ui.javafx.application.ImageFX;
 import org.mbari.vcr4j.commands.SeekElapsedTimeCmd;
@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
 /**
  * @author Brian Schlining
  * @since 2015-07-31T14:21:00
@@ -44,7 +43,6 @@ public class QueryResultsTableView {
     // We don't want to block teh JFX thread. So use this executor to open videos
     // with.
     private static Executor executor = Executors.newFixedThreadPool(2);
-
 
     public static TableView<String[]> newTableView(QueryResults queryResults) {
 
@@ -61,11 +59,9 @@ public class QueryResultsTableView {
         TableView<String[]> tableView = getTableView(columnNames);
         tableView.getItems().addAll(data);
 
-
         return tableView;
 
     }
-
 
     private static TableView<String[]> getTableView(List<String> columnNames) {
         TableView<String[]> tableView = new TableView<>();
@@ -75,37 +71,32 @@ public class QueryResultsTableView {
             TableColumn<String[], String> column = new TableColumn<>(columnNames.get(i));
             column.setId(columnNames.get(i));
             final int j = i;
-            column.setCellValueFactory(param ->
-                    new SimpleStringProperty(param.getValue()[j]));
+            column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue()[j]));
             tableView.getColumns().add(i, column);
         }
 
         String uuid = UUID.randomUUID().toString(); // Key to associate a ImageFX view with a table
-        URL url = QueryResultsTableView.class.getResource("/org/mbari/m3/vars/query/queryfx/images/404-page-not-found.jpg");
+        URL url = QueryResultsTableView.class
+                .getResource("/org/mbari/m3/vars/query/queryfx/images/404-page-not-found.jpg");
         ImageStageExt imageStageExt = null;
         try {
             ImageStage imageStage = ImageFX.namedWindow(uuid, url.toExternalForm()).get(3, TimeUnit.SECONDS);
             imageStageExt = new ImageStageExt(imageStage);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // TODO handle creation exception? Will this ever actually happen?
         }
 
         final FileChooser fileChooser = new FileChooser();
 
-
         // Add a listener to display an image if present and row is double clicked
         final ImageStageExt ext = imageStageExt;
 
         Function<String[], Void> showImageFn = rowItem -> {
-            List<String> urls = Arrays.stream(rowItem)
-                    .filter(s -> s.startsWith("http") || s.startsWith("file"))
-                    .flatMap(s -> Arrays.stream(s.split(",")))
-                    .filter(s -> {
+            List<String> urls = Arrays.stream(rowItem).filter(s -> s.startsWith("http") || s.startsWith("file"))
+                    .flatMap(s -> Arrays.stream(s.split(","))).filter(s -> {
                         String uc = s.toUpperCase();
                         return uc.endsWith("JPG") || uc.endsWith("PNG");
-                    })
-                    .collect(Collectors.toList());
+                    }).collect(Collectors.toList());
             if (!urls.isEmpty() && ext != null) {
                 final String imageLocation = urls.get(0);
                 final Image image = new Image(imageLocation);
@@ -117,8 +108,7 @@ public class QueryResultsTableView {
                         if (selectedFile != null) {
                             URLUtilities.copy(new URL(imageLocation), selectedFile);
                         }
-                    }
-                    catch (Exception e2) {
+                    } catch (Exception e2) {
                         // TODO throw exception onto eventbus
                     }
 
@@ -155,8 +145,7 @@ public class QueryResultsTableView {
         contextMenu.getItems().add(openInSharkMenuItem);
         tableView.setContextMenu(contextMenu);
 
-
-        return  tableView;
+        return tableView;
     }
 
     private static void openVideo(TableView<String[]> tableView) {
@@ -164,14 +153,11 @@ public class QueryResultsTableView {
         String[] rowItem = tableView.getSelectionModel().getSelectedItem();
         Logger log = LoggerFactory.getLogger(QueryResultsTableView.class);
 
-        List<String> urls = Arrays.stream(rowItem)
-                .filter(s -> s.startsWith("http") || s.startsWith("file"))
-                .flatMap(s -> Arrays.stream(s.split(",")))
-                .filter(s -> {
+        List<String> urls = Arrays.stream(rowItem).filter(s -> s.startsWith("http") || s.startsWith("file"))
+                .flatMap(s -> Arrays.stream(s.split(","))).filter(s -> {
                     String uc = s.toUpperCase();
                     return uc.endsWith("MP4") || uc.endsWith("MOV");
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         if (!urls.isEmpty()) {
             // --- Open video
@@ -184,12 +170,10 @@ public class QueryResultsTableView {
 
                     // --- Jump to correct index in video
                     String timeColName = Initializer.CONFIG.getString("vars.query.elapsed.time.column");
-                    List<String> columnNames = tableView.getColumns().stream()
-                            .map(TableColumn::getId)
+                    List<String> columnNames = tableView.getColumns().stream().map(TableColumn::getId)
                             .collect(Collectors.toList());
 
-                    Optional<String> timeColumn = columnNames.stream()
-                            .filter(s -> s.equalsIgnoreCase(timeColName))
+                    Optional<String> timeColumn = columnNames.stream().filter(s -> s.equalsIgnoreCase(timeColName))
                             .findFirst();
                     timeColumn.ifPresent(s -> {
                         int idx = columnNames.indexOf(s);
@@ -210,8 +194,7 @@ public class QueryResultsTableView {
                     ResourceBundle i18n = Initializer.getToolBox().getI18nBundle();
                     ShowAlert msg = new ShowExceptionAlert(i18n.getString("queryresults.view.video.fail.title"),
                             i18n.getString("queryresults.view.video.fail.header"),
-                            i18n.getString("queryresults.view.video.fail.content"),
-                            e);
+                            i18n.getString("queryresults.view.video.fail.content"), e);
                     eventBus.send(msg);
                 }
             };
@@ -219,7 +202,6 @@ public class QueryResultsTableView {
 
         }
     }
-
 
     private static class ImageStageExt {
 

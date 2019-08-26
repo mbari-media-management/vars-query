@@ -2,7 +2,7 @@ package org.mbari.m3.vars.query.controllers;
 
 import org.mbari.m3.vars.query.results.QueryResultsUtilities;
 import org.mbari.m3.vars.query.messages.SaveAsJSONMsg;
-import org.mbari.util.Tuple2;
+import mbarix4j.util.Tuple2;
 import org.mbari.m3.vars.query.results.QueryResults;
 import org.mbari.m3.vars.query.EventBus;
 import org.mbari.m3.vars.query.shared.rx.messages.NonFatalExceptionMsg;

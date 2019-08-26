@@ -15,7 +15,7 @@ package org.mbari.m3.vars.query.model;
 import java.util.Comparator;
 
 import org.mbari.m3.vars.query.model.ILink;
-import org.mbari.text.IgnoreCaseToStringComparator;
+import mbarix4j.text.IgnoreCaseToStringComparator;
 
 /**
  * For comparing links using linkName, toConcept and linkValue fields.

@@ -23,6 +23,8 @@ import org.mbari.m3.vars.query.ui.sdkfx.ConceptConstraintsWorkbench;
 import org.mbari.m3.vars.query.ui.sdkfx.ConceptMedia;
 import org.mbari.m3.vars.query.ui.sdkfx.CustomizeResultsWorkbench;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -235,16 +237,19 @@ public class App {
 
         UIToolBox toolBox = Initializer.getToolBox();
 
-        // Check that we can connect to the database. JDBC driver doesn't seem to get initialize
-        // correctly in Java Webstart unless we do this.
-        // TODO (20150712 brian) after switch away from ForkJoinPool this may no longer be needed
-//        try {
-//            Connection connection = toolBelt.getQueryService().getAnnotationConnection();
-//            connection.close();
-//        }
-//        catch (SQLException e) {
-//            getLog().error("Failed to connect to annotation database", e);
-//        }
+        // Check that we can connect to the database.
+       try {
+           AppConfig appConfig = toolBox.getAppConfig();
+           getLog().info("Using JDBC driver: " + appConfig.getAnnosaurusJdbcDriver());
+           Connection connection = toolBox.getServices()
+                   .getAsyncQueryService()
+                   .getAnnotationConnection();
+           connection.close();
+       }
+       catch (Exception e) {
+           getLog().error("Failed to connect to annotation database", e);
+           // TODO show error dialog
+       }
 
 
         App app = new App(toolBox);
