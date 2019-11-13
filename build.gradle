@@ -2,7 +2,7 @@ plugins {
   id 'application'
   id 'com.adarshr.test-logger' version '2.0.0' 
   id 'java'
-  id 'org.beryx.jlink' version "2.16.3"
+  id 'org.beryx.jlink' version "2.16.4"
   id 'org.openjfx.javafxplugin' version "0.0.8"
   id "com.github.ben-manes.versions" version "0.27.0" 
   id "org.javamodularity.moduleplugin" version "1.5.0" 
@@ -23,14 +23,14 @@ version = '0.1.1'
 
 dependencies {
   implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
-  implementation 'com.google.code.gson:gson:2.8.5'
-  implementation 'com.google.guava:guava:28.0-jre'
+  implementation 'com.google.code.gson:gson:2.8.6'
+  implementation 'com.google.guava:guava:28.1-jre'
   implementation 'com.guigarage:sdkfx:0.2.3.jre11'
   implementation 'com.jfoenix:jfoenix:9.0.9'
   implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
-  implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
-  implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-  implementation 'com.typesafe:config:1.3.4'
+  implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+  implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+  implementation 'com.typesafe:config:1.4.0'
   implementation 'org.bushe:eventbus:1.4'
   implementation 'org.fxmisc.easybind:easybind:1.0.3'
   implementation 'org.mbari:mbarix4j:2.0.2.jre11'
@@ -38,8 +38,8 @@ dependencies {
   implementation 'org.mbari.vcr4j:vcr4j-sharktopoda:4.0.2'
   implementation 'org.slf4j:slf4j-api:2.0.0-alpha0'
   runtimeOnly 'ch.qos.logback:logback-classic:1.3.0-alpha4'
-  runtimeOnly 'com.h2database:h2:1.4.199'
-  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc:7.4.1.jre11'
+  runtimeOnly 'com.h2database:h2:1.4.200'
+  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc:8.1.0.jre11-preview'
   runtimeOnly 'com.oracle.ojdbc:ojdbc8:19.3.0.0'
   runtimeOnly 'javax.servlet:javax.servlet-api:4.0.1' // needed by logback
   runtimeOnly 'net.sourceforge.jtds:jtds:1.3.1'
@@ -58,7 +58,7 @@ dependencies {
     because("If not excluded we end up with both mac and linux javafx jars which cause jlink to fail")
   }
 
-  implementation('org.eclipse.persistence:org.eclipse.persistence.jpa:2.7.4') {
+  implementation('org.eclipse.persistence:org.eclipse.persistence.jpa:2.7.5') {
       exclude module: "javax.persistence"
   }
 }
@@ -133,7 +133,6 @@ jlink {
         jpackageHome = System.getenv("JPACKAGE_HOME")
 
         def customInstallerOptions = [
-                "--identifier", project.name,
                 "--copyright", "Monterey Bay Aquarium Research Institute",
                 "--vendor", "org.mbari",
                 "--app-version", '0.1.1'
@@ -148,7 +147,8 @@ jlink {
         else {
             installerType = "dmg"
             customInstallerOptions.addAll([
-                    "--mac-bundle-name", "VARS Query",
+                    "--mac-package-name", "VARS Query",
+                    "--mac-package-identifier", project.name
             ])
         }
         installerOptions = customInstallerOptions

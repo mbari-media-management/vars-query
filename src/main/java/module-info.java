@@ -1,6 +1,6 @@
 open module org.mbari.vars.query {
     requires gson.javatime.serialisers;
-    requires gson;
+    requires com.google.gson;
     requires java.base;
     requires java.desktop;
     requires java.scripting;
