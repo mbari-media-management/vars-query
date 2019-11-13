@@ -19,6 +19,8 @@ repositories {
     }
 }
 
+version = "0.3.15"
+
 dependencies {
   implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
   implementation 'com.google.code.gson:gson:2.8.5'
@@ -133,7 +135,8 @@ jlink {
         def customInstallerOptions = [
                 "--identifier", project.name,
                 "--copyright", "Monterey Bay Aquarium Research Institute",
-                "--vendor", "org.mbari"
+                "--vendor", "org.mbari",
+                "--app-version", project.version
         ]
 
         if  (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
