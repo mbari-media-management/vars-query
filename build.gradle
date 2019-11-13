@@ -19,7 +19,7 @@ repositories {
     }
 }
 
-version = '0.1.1'
+version = '0.1.2'
 
 dependencies {
   implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.1'
