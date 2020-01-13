@@ -130,8 +130,9 @@ jlink {
     }
 
     jpackage {
-        jpackageHome = System.getenv("JPACKAGE_HOME")
 
+        jpackageHome = System.getenv("JPACKAGE_HOME")
+        
         def customInstallerOptions = [
                 "--copyright", "Monterey Bay Aquarium Research Institute",
                 "--vendor", "org.mbari",
@@ -142,7 +143,14 @@ jlink {
             installerType = "deb"
         }
         else if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+            jpackageHome = "C:\\Users\\brian\\Desktop\\jdk-14"
             installerType = "msi"
+            customInstallerOptions.addAll([
+                    "--win-menu",
+                    "--win-menu-group", "VARS",
+                    "--win-upgrade-uuid", "33afa428-3185-4d8f-bb8a-b2e6425aa0f7"
+            ])
+
         }
         else {
             installerType = "dmg"
