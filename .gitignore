@@ -2,6 +2,7 @@
 *.iml
 .DS_Store
 *.orig
+.vscode/
 
 # Package Files #
 *.jar
@@ -14,6 +15,11 @@ target/
 
 # Maven version plugin junk
 *.versionsBackup
+
+# Gradle
+.gradle/
+bin/
+build/
 
 # eclipse conf file
 .settings
