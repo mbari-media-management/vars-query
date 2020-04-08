@@ -141,7 +141,8 @@ jlink {
         def customInstallerOptions = [
                 "--copyright", "Monterey Bay Aquarium Research Institute",
                 "--vendor", "org.mbari",
-                "--app-version", project.version
+                "--app-version", project.version,
+                "--name", "VARS Query",
         ]
 
         if  (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
@@ -177,6 +178,14 @@ tasks.jpackageImage.doLast {
             from "src/jpackage/macos"
             include "VARS Query.icns"
             into "build/jpackage/VARS Query.app/Contents/Resources"
+        }
+        exec {
+
+            println("MACOSX: Stripping extended filesystem attributes from VARS Query.ap")
+
+            workingDir "build/jpackage"
+
+            commandLine "xattr", "-rc", "VARS Query.app/"
         }
     }
 }
