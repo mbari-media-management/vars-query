@@ -9,9 +9,10 @@ open module org.mbari.vars.query {
     requires javafx.fxml;
     requires jfxtras.controls;
     requires mbarix4j;
-    requires rxjava;
+    // requires io.reactive.rxjava3;
     requires sdkfx;
     requires org.slf4j;
     requires typesafe.config;
     requires vcr4j.core;
+    requires vcr4j.sharktopoda;
 }
