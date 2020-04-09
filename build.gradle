@@ -179,13 +179,13 @@ tasks.jpackageImage.doLast {
             include "VARS Query.icns"
             into "build/jpackage/VARS Query.app/Contents/Resources"
         }
-        exec {
+        // exec {
 
-            println("MACOSX: Stripping extended filesystem attributes from VARS Query.ap")
+        //     println("MACOSX: Stripping extended filesystem attributes from VARS Query.ap")
 
-            workingDir "build/jpackage"
+        //     workingDir "build/jpackage"
 
-            commandLine "xattr", "-rc", "VARS Query.app/"
-        }
+        //     commandLine "xattr", "-rc", "VARS Query.app/"
+        // }
     }
 }
