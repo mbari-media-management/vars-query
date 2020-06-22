@@ -4,7 +4,7 @@
 
 export JPACKAGE_HOME="/Library/Java/JavaVirtualMachines/jdk-14.jdk/Contents/Home"
 source "$HOME/workspace/m3-deployspace/vars-query/env-config.sh"
-gradle clean jpackage --info
+gradlew clean jpackage --info
 
 
 #/Users/brian/Applications/jdk-14.jdk/Contents/Home/bin/jpackage \
