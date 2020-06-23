@@ -166,6 +166,7 @@ jlink {
                     "--mac-package-name", "VARS Query",
                     "--mac-package-identifier", project.name
             ])
+            imageOptions = ["--icon", "src/jpackage/macos/VARS Query.icns"]
         }
         installerOptions = customInstallerOptions
 
@@ -175,12 +176,12 @@ jlink {
 
 tasks.jpackageImage.doLast {
     if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
-        copy {
-            println("MACOSX: Adding VARS Query.icns")
-            from "src/jpackage/macos"
-            include "VARS Query.icns"
-            into "build/jpackage/VARS Query.app/Contents/Resources"
-        }
+        // copy {
+        //     println("MACOSX: Adding VARS Query.icns")
+        //     from "src/jpackage/macos"
+        //     include "VARS Query.icns"
+        //     into "build/jpackage/VARS Query.app/Contents/Resources"
+        // }
         // exec {
 
         //     println("MACOSX: Stripping extended filesystem attributes from VARS Query.ap")
@@ -189,5 +190,18 @@ tasks.jpackageImage.doLast {
 
         //     commandLine "xattr", "-rc", "VARS Query.app/"
         // }
+        def signer = System.getenv("MAC_CODE_SIGNER")
+        if (signer) {
+            exec {
+                println("MACOSX: Signing application")
+                workingDir "build/jpackage"
+
+                executable "codesign"
+
+                args "--entitlements", "${projectDir}/src/jpackage/macos/java.entitlements",
+                  "--options", "runtime", "--deep", "-vvv", "-f", "--sign", signer, 
+                  "VARS Query.app"
+            }
+        }
     }
 }
