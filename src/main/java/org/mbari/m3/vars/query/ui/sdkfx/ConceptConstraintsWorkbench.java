@@ -104,8 +104,11 @@ public class ConceptConstraintsWorkbench extends WorkbenchView {
 
 
         // --- Do event wiring
-        ChangeListener<Boolean> cl = (ov, oldVal, newVal) -> setSelectedConceptName(getConceptSelection());
+        getConceptRow().getEditor()
+                .getSelectionModel()
+                .selectedItemProperty().addListener((v, oldV, newV) -> setSelectedConceptName(getConceptSelection()));
 
+        ChangeListener<Boolean> cl = (ov, oldVal, newVal) -> setSelectedConceptName(getConceptSelection());
         extendToParentRow.getEditor().selectedProperty().addListener(cl);
         extendToSiblingsRow.getEditor().selectedProperty().addListener(cl);
         extendToChildrenRow.getEditor().selectedProperty().addListener(cl);
