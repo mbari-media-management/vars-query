@@ -52,6 +52,8 @@ dependencies {
   runtimeOnly 'org.postgresql:postgresql:42.2.23'
   testImplementation 'junit:junit:4.13.2'
 
+  runtimeOnly 'com.oracle.database.jdbc:ojdbc11:21.1.0.0'
+
   implementation('org.jfxtras:jfxtras-controls:10.0-r1') {
     exclude group: 'org.openjfx', module: 'javafx-base'
     exclude group: 'org.openjfx', module: 'javafx-controls'
