@@ -1,6 +1,6 @@
 # vars-query
 
-![MBARI logo](src/site/resources/logo-mbari-3b.png)
+![MBARI logo](src/site/resources/images/logo-mbari-3b.png)
 
 An application for searching for and retrieving video annotations.
 
