@@ -15,4 +15,5 @@ open module org.mbari.vars.query {
     requires typesafe.config;
     requires vcr4j.core;
     requires vcr4j.sharktopoda;
+    requires io.reactivex.rxjava2;
 }
