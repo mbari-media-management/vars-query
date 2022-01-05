@@ -206,9 +206,19 @@ tasks.jpackageImage.doLast {
                 executable "codesign"
 
                 args "--entitlements", "${projectDir}/src/jpackage/macos/java.entitlements",
-                  "--options", "runtime", "--deep", "-vvv", "-f", "--sign", signer, 
+                  "--options", "runtime", "--deep", "-vvv", "-f", "--sign", signer, "-v",
                   "VARS Query.app"
+
+                println("MACOS: Manually sign the disk image with: `codesign --sign '${signer}' -v 'VARS Query-${project.version}.dmg'")
             }
+            // exec {
+            //     println("MACOSX: Signing .dmg")
+            //     workingDir "build/jpackage"
+
+            //     executable "codesign"
+
+            //     args "--sign", signer, "-v", "VARS Query-${project.version}.dmg"
+            // }
         }
     }
 }
