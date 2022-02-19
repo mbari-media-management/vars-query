@@ -2,7 +2,7 @@ package org.mbari.m3.vars.query;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.mbari.m3.vars.query.util.LessCSSLoader;
+//import org.mbari.m3.vars.query.util.LessCSSLoader;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -31,9 +31,10 @@ public class Initializer {
             ResourceBundle bundle = ResourceBundle.getBundle("i18n",
                     Locale.getDefault());
             // We're using less!! Load it using our custom loader
-            LessCSSLoader lessLoader = new LessCSSLoader();
-            String stylesheet = lessLoader.loadLess(Initializer.class.getResource("/less/query.less"))
-                    .toExternalForm();
+//            LessCSSLoader lessLoader = new LessCSSLoader();
+//            String stylesheet = lessLoader.loadLess(Initializer.class.getResource("/less/query.less"))
+//                    .toExternalForm();
+            String stylesheet = Initializer.class.getResource("/css/query.css").toExternalForm();
             Services services = ServicesBuilder.build(CONFIG, executor);
             toolBox = new UIToolBox(services,
                     new Data(),

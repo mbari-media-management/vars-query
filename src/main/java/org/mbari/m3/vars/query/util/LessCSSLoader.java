@@ -14,14 +14,14 @@ public class LessCSSLoader {
     private ScriptEngine engine;
 
     public LessCSSLoader() {
-        ScriptEngineManager mgr = new ScriptEngineManager();
-        engine = mgr.getEngineByExtension("js");
-
-        try {
-            engine.eval(createParserScript());
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        }
+//        ScriptEngineManager mgr = new ScriptEngineManager();
+//        engine = mgr.getEngineByExtension("js");
+//
+//        try {
+//            engine.eval(createParserScript());
+//        } catch (ScriptException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public URL loadLess(URL lessFile) {
