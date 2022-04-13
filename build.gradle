@@ -3,7 +3,7 @@ plugins {
   id 'com.adarshr.test-logger' version '3.0.0' 
   id 'java'
   id 'org.beryx.jlink' version "2.24.1"
-  id 'org.openjfx.javafxplugin' version "0.0.10"
+  id 'org.openjfx.javafxplugin' version "0.0.11"
   id "com.github.ben-manes.versions" version "0.39.0" 
 //   id "org.javamodularity.moduleplugin" version "1.8.7" //BUGS in 1.6.0, 1.5.0 is ok
 }
@@ -67,7 +67,7 @@ dependencies {
 }
 
 javafx {
-    version = "17.0.1"
+    version = "17.0.2"
     modules = [
             'javafx.base',
             'javafx.controls',
@@ -192,18 +192,18 @@ tasks.jpackageImage.doLast {
         // }
         def signer = System.getenv("MAC_CODE_SIGNER")
         if (signer) {
-            exec {
-                println("MACOSX: Signing application")
-                workingDir "build/jpackage"
+            // exec {
+            //     println("MACOSX: Signing application")
+            //     workingDir "build/jpackage"
 
-                executable "codesign"
+            //     executable "codesign"
 
-                args "--entitlements", "${projectDir}/src/jpackage/macos/java.entitlements",
-                  "--options", "runtime", "--deep", "-vvv", "-f", "--sign", signer, "-v",
-                  "VARS Query.app"
+            //     args "--entitlements", "${projectDir}/src/jpackage/macos/java.entitlements",
+            //       "--options", "runtime", "--deep", "-vvv", "-f", "--sign", signer, "-v",
+            //       "VARS Query.app"
 
-                println("MACOS: Manually sign the disk image with: `codesign --sign '${signer}' -v 'VARS Query-${project.version}.dmg'")
-            }
+            //     println("MACOS: Manually sign the disk image with: `codesign --sign '${signer}' -v 'VARS Query-${project.version}.dmg'")
+            // }
             // exec {
             //     println("MACOSX: Signing .dmg")
             //     workingDir "build/jpackage"
