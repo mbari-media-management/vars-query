@@ -1,6 +1,6 @@
 package org.mbari.m3.vars.query;
 
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
