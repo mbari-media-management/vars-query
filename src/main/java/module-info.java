@@ -1,5 +1,5 @@
 open module org.mbari.vars.query {
-    requires gson.javatime.serialisers;
+    // requires gson.javatime.serialisers;
     requires com.google.gson;
     requires java.base;
     requires java.desktop;
@@ -16,4 +16,5 @@ open module org.mbari.vars.query {
     requires vcr4j.core;
     requires vcr4j.sharktopoda;
     requires io.reactivex.rxjava3;
+    requires org.bushe.swing;
 }

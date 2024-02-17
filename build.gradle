@@ -1,14 +1,15 @@
 plugins {
   id 'application'
-  id 'com.adarshr.test-logger' version '3.2.0' 
+  id 'com.adarshr.test-logger' version '4.0.0' 
   id 'java'
-  id 'org.beryx.jlink' version "2.26.0"
-  id 'org.openjfx.javafxplugin' version "0.0.13"
-  id "com.github.ben-manes.versions" version "0.45.0" 
+  id 'org.beryx.jlink' version "3.0.1"
+  id 'org.openjfx.javafxplugin' version "0.1.0"
+  id "com.github.ben-manes.versions" version "0.51.0" 
 //   id "org.javamodularity.moduleplugin" version "1.8.7" //BUGS in 1.6.0, 1.5.0 is ok
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven {
         name = "MBARI"
@@ -18,30 +19,31 @@ repositories {
             password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
         }
     }
+    
 }
 
 version = '1.0.0'
 
 dependencies {
-  implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.2'
+//   implementation 'com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.2'
   implementation 'com.google.code.gson:gson:2.10.1'
-  implementation 'com.google.guava:guava:31.1-jre'
-  implementation 'com.guigarage:sdkfx:0.2.7.jre17'
+  implementation 'com.google.guava:guava:33.0.0-jre'
+  implementation 'com.guigarage:sdkfx:0.3.0.jre21'
   implementation 'com.jfoenix:jfoenix:9.0.10'
   implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
   implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-  implementation 'com.typesafe:config:1.4.2'
-  implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
-  implementation 'org.bushe:eventbus:1.4'
+  implementation 'com.typesafe:config:1.4.3'
+  implementation 'io.reactivex.rxjava3:rxjava:3.1.8'
+  implementation 'org.bushe:eventbus:1.5'
   implementation 'org.fxmisc.easybind:easybind:1.0.3'
   implementation 'org.mbari:mbarix4j:2.0.5.jre11'
   implementation 'org.mbari.vcr4j:vcr4j-core:5.2.0'
   implementation 'org.mbari.vcr4j:vcr4j-sharktopoda:5.2.0'
-  implementation 'org.slf4j:slf4j-api:2.0.6'
-  runtimeOnly 'ch.qos.logback:logback-classic:1.4.5' // 1.3.0-alpha5 isn't working with Jansi
+  implementation 'org.slf4j:slf4j-api:2.0.12'
+  runtimeOnly 'ch.qos.logback:logback-classic:1.4.14' // 1.3.0-alpha5 isn't working with Jansi
   runtimeOnly 'com.h2database:h2:1.4.200'
-  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11'
+  runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc:12.6.0.jre11'
   runtimeOnly 'javax.servlet:javax.servlet-api:4.0.1' // needed by logback
   runtimeOnly 'net.sourceforge.jtds:jtds:1.3.1'
   runtimeOnly 'org.apache.derby:derby:10.15.2.0'
@@ -49,12 +51,12 @@ dependencies {
   runtimeOnly 'org.apache.derby:derbynet:10.15.2.0'
   runtimeOnly 'org.apache.derby:derbyshared:10.15.2.0'
   runtimeOnly 'org.apache.derby:derbytools:10.15.2.0'
-  runtimeOnly 'org.postgresql:postgresql:42.2.23'
+  runtimeOnly 'org.postgresql:postgresql:42.7.1'
   testImplementation 'junit:junit:4.13.2'
 
   runtimeOnly 'com.oracle.database.jdbc:ojdbc11:21.1.0.0'
 
-  implementation('org.jfxtras:jfxtras-controls:10.0-r1') {
+  implementation('org.jfxtras:jfxtras-controls:17-r1') {
     exclude group: 'org.openjfx', module: 'javafx-base'
     exclude group: 'org.openjfx', module: 'javafx-controls'
     exclude group: 'org.openjfx', module: 'javafx-graphics'
@@ -67,7 +69,7 @@ dependencies {
 }
 
 javafx {
-    version = "17.0.2"
+    version = "21.0.1"
     modules = [
             'javafx.base',
             'javafx.controls',
@@ -79,7 +81,9 @@ javafx {
 def runtimeJvmArgs = [
         '-Xms1g',
         '--add-opens', 'java.base/java.lang.invoke=retrofit2',
-        "--add-opens",  "java.base/java.lang.invoke=vars.query.merged.module"
+        "--add-opens",  "java.base/java.lang.invoke=vars.query.merged.module",
+        '--add-reads', 'vars.query.merged.module=org.slf4j',
+        '--add-reads', 'vars.query.merged.module=com.google.gson'
         // '--add-reads', 'vars.query.merged.module=org.slf4j'
 ]
 
@@ -120,7 +124,7 @@ jlink {
             '--no-man-pages',
     ]
 
-    addExtraDependencies("javafx")
+    addExtraDependencies("javafx", "slf4j-api")
 
     if(System.getenv("CI")) {
         ["win", "linux", "mac"].each { name ->
