@@ -2,6 +2,7 @@
 
 ![MBARI logo](src/site/resources/images/logo-mbari-3b.png)
 
-An application for searching for and retrieving video annotations.
+> [!IMPORTANT]
+> The vars-query has been replaced by <https://github.com/mbari-org/vars-query-vue> 
 
-This project is part of [MBARI's Media Management](https://mbari-media-management.github.io/) tools.
+
